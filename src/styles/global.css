@@ -258,6 +258,13 @@ img {
   transform: translateY(-3px);
 }
 
+/* Icon inside a .btn (WhatsApp/Instagram glyphs, etc) */
+.btn__icon {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
 .btn--primary {
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   color: #fffafa;

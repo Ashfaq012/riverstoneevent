@@ -1,5 +1,7 @@
 ---
 import { business, whatsappLink } from '../data/business';
+import WhatsAppIcon from './icons/WhatsAppIcon.astro';
+import InstagramIcon from './icons/InstagramIcon.astro';
 
 interface Props {
   eyebrow?: string;
@@ -30,9 +32,11 @@ const {
     <div class="cta-actions">
       <a class="btn btn--outline" href="/contact/">Enquire Now</a>
       <a class="btn btn--outline" href={whatsappLink} target="_blank" rel="noopener">
+        <WhatsAppIcon class="btn__icon" />
         Chat on WhatsApp
       </a>
       <a class="btn btn--outline" href={business.instagram} target="_blank" rel="noopener">
+        <InstagramIcon class="btn__icon" />
         Chat on Instagram
       </a>
     </div>

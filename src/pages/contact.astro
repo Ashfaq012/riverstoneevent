@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { business, whatsappLink } from '../data/business';
 import { breadcrumbSchema } from '../lib/schema';
+import WhatsAppIcon from '../components/icons/WhatsAppIcon.astro';
+import InstagramIcon from '../components/icons/InstagramIcon.astro';
 
 const title = `Contact Us | ${business.name}`;
 const description = `Get in touch with ${business.name} to plan your event across ${business.locations.join(', ')}.`;
@@ -35,9 +37,11 @@ const description = `Get in touch with ${business.name} to plan your event acros
 
         <div class="contact-quick-actions">
           <a class="btn btn--outline" href={whatsappLink} target="_blank" rel="noopener">
+            <WhatsAppIcon class="btn__icon" />
             Chat on WhatsApp
           </a>
           <a class="btn btn--outline" href={business.instagram} target="_blank" rel="noopener">
+            <InstagramIcon class="btn__icon" />
             Chat on Instagram
           </a>
         </div>

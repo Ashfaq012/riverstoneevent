@@ -1,5 +1,6 @@
 ---
 import { business } from '../data/business';
+import InstagramIcon from './icons/InstagramIcon.astro';
 
 const year = new Date().getFullYear();
 ---
@@ -20,6 +21,7 @@ const year = new Date().getFullYear();
       <p class="footer-tagline">{business.tagline}</p>
       <p>{business.description}</p>
       <a class="btn btn--outline" href={business.instagram} rel="noopener" target="_blank">
+        <InstagramIcon class="btn__icon" />
         Follow {business.instagramHandle}
       </a>
     </div>
@@ -44,6 +46,10 @@ const year = new Date().getFullYear();
 
   <div class="container footer-bottom">
     <p>&copy; {year} {business.name}. All rights reserved.</p>
+    <p>
+      Developed by{' '}
+      <a href="https://digitizexlabs.com" rel="noopener" target="_blank">DigitizeX Labs</a>
+    </p>
   </div>
 </footer>
 
@@ -120,6 +126,10 @@ const year = new Date().getFullYear();
   }
 
   .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     margin-top: 2.75rem;
     padding-top: 1.5rem;
@@ -127,7 +137,19 @@ const year = new Date().getFullYear();
   }
 
   .footer-bottom p {
+    margin: 0;
     color: rgba(255, 255, 255, 0.55);
+  }
+
+  .footer-bottom a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+    text-underline-offset: 3px;
+  }
+
+  .footer-bottom a:hover {
+    color: #fff;
   }
 
   @media (max-width: 780px) {
