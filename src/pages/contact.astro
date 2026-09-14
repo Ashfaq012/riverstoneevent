@@ -72,13 +72,30 @@ const description = `Get in touch with ${business.name} to plan your event acros
           the script below just reads that query param to show a banner.
         -->
         <form id="contact-form" method="POST" action="/api/contact">
+          <!--
+            Honeypot: real visitors never see or fill this (hidden + pulled
+            out of tab order), so any submission with it filled in is
+            treated as a bot and silently dropped server-side in
+            src/pages/api/contact.ts — without letting the bot know it was
+            caught, so it doesn't just adapt.
+          -->
+          <div class="visually-hidden" aria-hidden="true">
+            <label for="company">Company</label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
           <label>
             Name
-            <input type="text" name="name" required />
+            <input type="text" name="name" required maxlength="100" />
           </label>
           <label>
             Email
-            <input type="email" name="email" required />
+            <input type="email" name="email" required maxlength="200" />
           </label>
           <label>
             Event date
@@ -86,7 +103,7 @@ const description = `Get in touch with ${business.name} to plan your event acros
           </label>
           <label>
             Message
-            <textarea name="message" rows="4" required></textarea>
+            <textarea name="message" rows="4" required maxlength="3000"></textarea>
           </label>
           <button class="btn btn--primary" type="submit">Send Enquiry</button>
         </form>

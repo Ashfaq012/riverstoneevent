@@ -60,6 +60,32 @@ To run it:
    address in `contact.ts` — `onboarding@resend.dev` only works for testing
    and is rate-limited.
 
+## Security
+
+- **Contact form abuse.** `/api/contact` has a hidden honeypot field (a bot
+  that auto-fills every input trips it; the response still looks like
+  success so the bot doesn't adapt), server-side email-format validation,
+  and length caps on every field. This stops generic scripted spam, not a
+  targeted attacker. If real spam gets through anyway, turn on Vercel's
+  Attack Challenge Mode (project dashboard, no code) or add a CAPTCHA
+  (e.g. Cloudflare Turnstile) in front of the form.
+- **Security headers** (`vercel.json`): CSP, `X-Content-Type-Options`,
+  `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, and HSTS.
+  The CSP's `script-src` includes `'unsafe-inline'` because Astro inlines a
+  couple of small per-page `<script>` tags (the scroll-reveal observer, and
+  the contact page's status-banner script) rather than extracting them to
+  external files — tightening this further means moving those into real
+  `.js` files under `public/` and switching to a hash- or nonce-based CSP.
+  Not done here since there's currently no HTML-injection sink in the site
+  for a stricter CSP to defend against (no user input is ever reflected
+  into rendered HTML).
+- **Dependency watch**: `npm audit` currently flags a `path-to-regexp` ReDoS
+  advisory via `@vercel/routing-utils`, a transitive dependency of
+  `@astrojs/vercel`. It's used at build time to generate Vercel's routing
+  config from this project's own routes, not exposed to visitor input, so
+  it's low-priority — but rerun `npm audit` occasionally and take the
+  adapter update once one ships.
+
 ## Known TODOs before launch
 
 - **Real photography.** The current "Gallery" page is just an embedded
