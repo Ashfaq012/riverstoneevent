@@ -1,5 +1,5 @@
 ---
-import { business } from '../data/business';
+import { business, whatsappLink } from '../data/business';
 
 interface Props {
   eyebrow?: string;
@@ -29,6 +29,9 @@ const {
     <p>{description}</p>
     <div class="cta-actions">
       <a class="btn btn--outline" href="/contact/">Enquire Now</a>
+      <a class="btn btn--outline" href={whatsappLink} target="_blank" rel="noopener">
+        Chat on WhatsApp
+      </a>
       <a class="btn btn--outline" href={business.instagram} target="_blank" rel="noopener">
         Chat on Instagram
       </a>

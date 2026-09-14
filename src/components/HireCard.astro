@@ -1,4 +1,8 @@
 ---
+// No per-card "Book Now" button anymore — with four+ of these in a grid it
+// read as button clutter. The whole card links to its detail page instead
+// (same pattern as ServiceCard), and the one enquiry CTA for the section
+// lives once, below the grid, pointing straight to /contact/.
 interface Props {
   href: string;
   title: string;
@@ -8,20 +12,28 @@ interface Props {
 const { href, title, items } = Astro.props;
 ---
 
-<div class="card hire-card reveal">
+<a class="card hire-card reveal" href={href}>
   <span class="hire-card__rule" aria-hidden="true"></span>
   <h3>{title}</h3>
   <p class="hire-card__label">Available items</p>
   <ul class="tag-list">
     {items.slice(0, 4).map((item) => <li>{item}</li>)}
   </ul>
-  <a class="btn btn--primary hire-card__cta" href={href}>Book Now</a>
-</div>
+  <span class="hire-card__link">
+    View details
+    <svg viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </span>
+</a>
 
 <style>
   .hire-card {
     display: flex;
     flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
   }
 
   .hire-card__rule {
@@ -31,6 +43,11 @@ const { href, title, items } = Astro.props;
     border-radius: 2px;
     background: linear-gradient(90deg, var(--color-gold), var(--color-rose));
     margin-bottom: 1.1rem;
+    transition: width 0.35s var(--ease);
+  }
+
+  .hire-card:hover .hire-card__rule {
+    width: 56px;
   }
 
   .hire-card__label {
@@ -41,9 +58,27 @@ const { href, title, items } = Astro.props;
     margin-bottom: 0;
   }
 
-  .hire-card__cta {
+  .hire-card .tag-list {
+    flex-grow: 1;
+  }
+
+  .hire-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     margin-top: 1.5rem;
-    text-align: center;
-    justify-content: center;
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .hire-card__link svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.3s var(--ease);
+  }
+
+  .hire-card:hover .hire-card__link svg {
+    transform: translateX(4px);
   }
 </style>

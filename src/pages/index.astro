@@ -51,7 +51,7 @@ const whyUs = [
         </p>
         <div class="hero__actions">
           <a class="btn btn--primary" href="/gallery/">View Gallery</a>
-          <a class="btn btn--outline" href="/contact/">Book Now</a>
+          <a class="btn btn--outline" href="/contact/">Enquire Now</a>
         </div>
         <ul class="hero__locations" aria-label="Areas served">
           {business.locations.map((location) => <li>{location}</li>)}
@@ -110,6 +110,7 @@ const whyUs = [
         ))}
       </div>
       <p class="section-cta">
+        <a class="btn btn--primary" href="/contact/">Enquire Now</a>
         <a class="btn btn--outline" href="/hire/">View All Hire Items</a>
       </p>
     </div>
@@ -224,7 +225,11 @@ const whyUs = [
   }
 
   .section-cta {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
     margin-top: 2.75rem;
   }
 

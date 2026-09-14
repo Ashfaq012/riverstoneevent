@@ -40,3 +40,7 @@ export const business = {
   instagramHandle: '@riverstoneevent',
   locations,
 } as const;
+
+// wa.me click-to-chat links need the number with country code and no
+// punctuation — derived from `phone` so the two never drift out of sync.
+export const whatsappLink = `https://wa.me/${business.phone.replace(/\D/g, '')}`;

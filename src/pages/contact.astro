@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { business } from '../data/business';
+import { business, whatsappLink } from '../data/business';
 import { breadcrumbSchema } from '../lib/schema';
 
 const title = `Contact Us | ${business.name}`;
@@ -29,9 +29,18 @@ const description = `Get in touch with ${business.name} to plan your event acros
         <h1>Let's Create Magic Together</h1>
         <p>
           Ready to transform your special day? Fill in the form and we'll
-          get back to you, or reach out on Instagram for the fastest
-          response.
+          get back to you, or reach out on WhatsApp or Instagram for the
+          fastest response.
         </p>
+
+        <div class="contact-quick-actions">
+          <a class="btn btn--outline" href={whatsappLink} target="_blank" rel="noopener">
+            Chat on WhatsApp
+          </a>
+          <a class="btn btn--outline" href={business.instagram} target="_blank" rel="noopener">
+            Chat on Instagram
+          </a>
+        </div>
 
         <dl class="contact-details">
           <div>
@@ -62,7 +71,7 @@ const description = `Get in touch with ${business.name} to plan your event acros
         </p>
         <p id="form-error" class="form-banner form-banner--error" hidden>
           Something went wrong sending that. Please try again, or message us
-          on Instagram instead.
+          on WhatsApp or Instagram instead.
         </p>
 
         <!--
@@ -118,6 +127,13 @@ const description = `Get in touch with ${business.name} to plan your event acros
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
     align-items: start;
+  }
+
+  .contact-quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 1.5rem;
   }
 
   .contact-details {
