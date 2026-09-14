@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FloralEmblem from '../components/FloralEmblem.astro';
+---
+
+<BaseLayout
+  title="Page Not Found | Riverstone Event"
+  description="The page you're looking for doesn't exist."
+>
+  <section class="section container not-found">
+    <div class="not-found__art" aria-hidden="true">
+      <FloralEmblem letter="?" />
+    </div>
+    <p class="eyebrow">404</p>
+    <h1>We couldn't find that page</h1>
+    <p>It may have moved, or the link might be out of date.</p>
+    <a class="btn btn--primary" href="/">Back to Home</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    text-align: center;
+    padding-block: 5rem;
+    max-width: 480px;
+  }
+
+  .not-found__art {
+    width: 140px;
+    margin: 0 auto 1.5rem;
+  }
+</style>

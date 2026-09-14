@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CTASection from '../components/CTASection.astro';
+import Ornament from '../components/Ornament.astro';
+import { business } from '../data/business';
+import { breadcrumbSchema } from '../lib/schema';
+
+const whyUs = [
+  {
+    title: 'Premium Quality',
+    body: 'We use only the finest materials and fresh florals to create stunning decorations that exceed expectations.',
+  },
+  {
+    title: 'Bespoke Designs',
+    body: 'Every event is unique. We create custom designs tailored to your vision, theme, and personal style preferences.',
+  },
+  {
+    title: 'On-Time Setup',
+    body: 'We pride ourselves on punctuality and professionalism, ensuring everything is perfect before your guests arrive.',
+  },
+  {
+    title: 'Local Experts',
+    body: `Based in London, we know the best venues and serve ${business.locations.join(', ')}.`,
+  },
+];
+
+const values = [
+  {
+    title: 'Passion',
+    body: 'Every project is infused with our love for creating beautiful spaces that evoke emotion and wonder for our clients in London and Hertfordshire.',
+  },
+  {
+    title: 'Excellence',
+    body: 'We strive for perfection in every detail, using premium materials and refined techniques to exceed expectations.',
+  },
+  {
+    title: 'Trust',
+    body: 'Building lasting relationships with our clients through reliability, transparency, and exceptional service delivery.',
+  },
+];
+
+const title = `About Us | ${business.name}`;
+const description = `Meet ${business.name}, a luxury event decoration studio serving ${business.locations.join(', ')}.`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  schema={[
+    breadcrumbSchema([
+      { name: 'Home', url: business.url },
+      { name: 'About', url: `${business.url}/about/` },
+    ]),
+  ]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={[{ name: 'Home', href: '/' }, { name: 'About', href: '/about/' }]} />
+  </div>
+
+  <section class="section about-hero">
+    <span class="blob about-hero__blob" aria-hidden="true"></span>
+    <div class="container about-intro reveal">
+      <p class="eyebrow eyebrow--start">About Riverstone Event</p>
+      <h1>Crafting <span class="accent-word">Elegance</span> for Every Celebration</h1>
+      <p>
+        At {business.name}, we believe every celebration deserves to be
+        extraordinary. Founded with a passion for design and meticulous
+        attention to detail, we have been transforming spaces into
+        breathtaking venues across London and Hertfordshire.
+      </p>
+      <p>
+        Our team of creative decorators combines artistry with precision to
+        deliver bespoke event experiences that leave lasting impressions.
+        Serving {business.locations.join(', ')}, from intimate gatherings to
+        grand celebrations, we pour our hearts into every detail.
+      </p>
+      <!--
+        TODO: the original site animates "Events Decorated" / "Years
+        Experience" counters — plug in the real figures here once confirmed
+        with the client, rather than guessing at numbers.
+      -->
+      <div class="stat-row">
+        <div>
+          <p class="stat-row__value">4.9</p>
+          <p class="stat-row__label">Client Rating</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--muted">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Why Choose Us</p>
+        <h2>What Makes Riverstone Event Different</h2>
+        <p>
+          We combine creativity, professionalism, and passion to deliver
+          unforgettable event experiences across London and Hertfordshire.
+        </p>
+      </div>
+      <div class="grid grid--4">
+        {whyUs.map((item) => (
+          <div class="card reveal">
+            <span class="card-rule" aria-hidden="true"></span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Ornament />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Our Values</p>
+        <h2>What Drives Us</h2>
+      </div>
+      <div class="grid grid--3">
+        {values.map((item) => (
+          <div class="card reveal">
+            <span class="card-rule" aria-hidden="true"></span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    eyebrow="Let's Create Magic Together"
+    title="Let's Create Something Beautiful Together"
+    description={`Ready to discuss your upcoming event in ${business.locations.join(', ')}? We'd love to hear from you.`}
+  />
+</BaseLayout>
+
+<style>
+  .about-hero {
+    overflow: hidden;
+  }
+
+  .about-hero__blob {
+    width: 380px;
+    height: 380px;
+    background: var(--color-gold-soft);
+    top: -140px;
+    right: -100px;
+  }
+
+  .about-intro {
+    max-width: 760px;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .stat-row__value {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    color: var(--color-primary-dark);
+    margin: 0;
+  }
+
+  .stat-row__label {
+    color: var(--color-muted);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.78rem;
+  }
+
+  .card-rule {
+    display: block;
+    width: 34px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-primary));
+    margin-bottom: 1.1rem;
+  }
+</style>

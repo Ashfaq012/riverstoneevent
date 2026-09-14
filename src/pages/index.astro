@@ -1,0 +1,251 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import HireCard from '../components/HireCard.astro';
+import CTASection from '../components/CTASection.astro';
+import FloralEmblem from '../components/FloralEmblem.astro';
+import Ornament from '../components/Ornament.astro';
+import { business } from '../data/business';
+
+const services = (await getCollection('services')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const hireItems = (await getCollection('hireItems')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const whyUs = [
+  {
+    title: 'Premium Quality',
+    body: 'We use only the finest materials and fresh florals to create stunning decorations that exceed expectations.',
+  },
+  {
+    title: 'Custom Designs',
+    body: 'Every event is unique. We craft personalised themes and concepts tailored to your vision and style.',
+  },
+  {
+    title: 'On-Time Setup',
+    body: 'We pride ourselves on punctuality and professionalism, ensuring everything is perfect before your guests arrive.',
+  },
+];
+---
+
+<BaseLayout
+  title={`${business.name} – ${business.tagline}`}
+  description={business.description}
+>
+  <section class="section hero">
+    <span class="blob hero__blob hero__blob--gold" aria-hidden="true"></span>
+    <span class="blob hero__blob hero__blob--rose" aria-hidden="true"></span>
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <p class="eyebrow eyebrow--start">Premium Event Decoration</p>
+        <h1>
+          Transform Your Special Moments Into{' '}
+          <span class="accent-word">Unforgettable</span> Memories
+        </h1>
+        <p class="hero__subtitle">
+          Luxury event decoration services for weddings, birthdays, proposals,
+          and more. Serving {business.locations.join(', ')}.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="/gallery/">View Gallery</a>
+          <a class="btn btn--outline" href="/contact/">Book Now</a>
+        </div>
+        <ul class="hero__locations" aria-label="Areas served">
+          {business.locations.map((location) => <li>{location}</li>)}
+        </ul>
+      </div>
+      <div class="hero__art reveal" aria-hidden="true">
+        <FloralEmblem letter="R" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--muted">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">What We Offer</p>
+        <h2>Our Premium Services</h2>
+        <p>
+          From intimate gatherings to grand celebrations, we craft bespoke
+          decorations that reflect your unique vision and style.
+        </p>
+      </div>
+      <div class="grid grid--4">
+        {services.map((service) => (
+          <ServiceCard
+            href={`/services/${service.id}/`}
+            title={service.data.title}
+            summary={service.data.summary}
+          />
+        ))}
+      </div>
+      <p class="section-cta">
+        <a class="btn btn--outline" href="/services/">View All Services</a>
+      </p>
+    </div>
+  </section>
+
+  <Ornament />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Hire Collection</p>
+        <h2>Event Decoration Hire</h2>
+        <p>
+          Transform your event with our stunning collection of premium
+          decorations available for hire across London & Hertfordshire.
+        </p>
+      </div>
+      <div class="grid grid--4">
+        {hireItems.map((item) => (
+          <HireCard
+            href={`/hire/${item.id}/`}
+            title={item.data.title}
+            items={item.data.items}
+          />
+        ))}
+      </div>
+      <p class="section-cta">
+        <a class="btn btn--outline" href="/hire/">View All Hire Items</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Why Riverstone</p>
+        <h2>Why Choose Us</h2>
+        <p>
+          With years of experience and a passion for perfection, we bring
+          your celebrations to life.
+        </p>
+      </div>
+      <div class="grid grid--3">
+        {whyUs.map((item) => (
+          <div class="card reveal">
+            <span class="why-card__rule" aria-hidden="true"></span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection title="Ready to Transform Your Special Day?" />
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: clamp(4rem, 9vw, 6.5rem);
+    overflow: hidden;
+  }
+
+  .hero__blob {
+    width: 420px;
+    height: 420px;
+  }
+
+  .hero__blob--gold {
+    background: var(--color-gold-soft);
+    top: -160px;
+    right: -120px;
+  }
+
+  .hero__blob--rose {
+    width: 320px;
+    height: 320px;
+    background: var(--color-rose-soft);
+    bottom: -120px;
+    left: -100px;
+  }
+
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.35rem, 4.5vw, 3.6rem);
+  }
+
+  .hero__subtitle {
+    max-width: 520px;
+    color: var(--color-muted);
+    font-size: 1.1rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .hero__locations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.1rem;
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .hero__locations li:not(:last-child)::after {
+    content: '·';
+    margin-left: 1.1rem;
+    color: var(--color-gold);
+  }
+
+  .hero__art {
+    aspect-ratio: 1;
+    max-width: 420px;
+    margin-inline: auto;
+  }
+
+  .why-card__rule {
+    display: block;
+    width: 34px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-primary));
+    margin-bottom: 1.1rem;
+  }
+
+  .section-cta {
+    text-align: center;
+    margin-top: 2.75rem;
+  }
+
+  @media (max-width: 900px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .hero__subtitle {
+      margin-inline: auto;
+    }
+
+    .hero__actions,
+    .hero__locations {
+      justify-content: center;
+    }
+
+    .hero__art {
+      order: -1;
+      max-width: 280px;
+    }
+  }
+</style>

@@ -1,0 +1,84 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTASection from '../../components/CTASection.astro';
+import { business } from '../../data/business';
+import { serviceSchema, breadcrumbSchema } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const hireItems = await getCollection('hireItems');
+  return hireItems.map((item) => ({
+    params: { slug: item.id },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+const url = `${business.url}/hire/${item.id}/`;
+---
+
+<BaseLayout
+  title={item.data.seoTitle}
+  description={item.data.seoDescription}
+  schema={[
+    serviceSchema({
+      name: item.data.title,
+      description: item.data.seoDescription,
+      url,
+    }),
+    breadcrumbSchema([
+      { name: 'Home', url: business.url },
+      { name: 'Hire', url: `${business.url}/hire/` },
+      { name: item.data.title, url },
+    ]),
+  ]}
+>
+  <div class="container">
+    <Breadcrumbs
+      crumbs={[
+        { name: 'Home', href: '/' },
+        { name: 'Hire', href: '/hire/' },
+        { name: item.data.title, href: `/hire/${item.id}/` },
+      ]}
+    />
+  </div>
+
+  <article class="section hire-detail">
+    <div class="container hire-detail__grid reveal">
+      <div>
+        <span class="hire-detail__rule" aria-hidden="true"></span>
+        <p class="eyebrow eyebrow--start">{item.data.eyebrow}</p>
+        <h1>{item.data.title}</h1>
+        <Content />
+        {item.data.items.length > 0 && (
+          <>
+            <h2 class="visually-hidden">Available items</h2>
+            <ul class="feature-list">
+              {item.data.items.map((line) => <li>{line}</li>)}
+            </ul>
+          </>
+        )}
+        <a class="btn btn--primary" href="/contact/">Book Now</a>
+      </div>
+    </div>
+  </article>
+
+  <CTASection title={`Ready to Book ${item.data.title}?`} />
+</BaseLayout>
+
+<style>
+  .hire-detail__grid {
+    max-width: 760px;
+  }
+
+  .hire-detail__rule {
+    display: block;
+    width: 48px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-rose));
+    margin-bottom: 1.25rem;
+  }
+</style>

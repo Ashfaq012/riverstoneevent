@@ -1,0 +1,403 @@
+/* ============================================================
+   Design tokens — a boutique event-decor palette: warm ivory,
+   deep terracotta, aged gold, dusty rose. Swap these to re-skin
+   the whole site from one place.
+   ============================================================ */
+:root {
+  --color-bg: #fbf4ec;
+  --color-bg-alt: #f5e9db;
+  --color-surface: #fffdfa;
+  --color-text: #2c211b;
+  --color-muted: #77675d;
+  --color-primary: #b3693f;
+  --color-primary-dark: #8a4d2c;
+  --color-gold: #c9a15a;
+  --color-gold-soft: #e6cd9a;
+  --color-rose: #d9a8a0;
+  --color-rose-soft: #f1dcd6;
+  --color-border: #e8d8c4;
+  --color-ink: #241b16;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-script: 'Cormorant Garamond', var(--font-display);
+  --font-body: 'Poppins', system-ui, -apple-system, sans-serif;
+
+  --max-width: 1200px;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --shadow-soft: 0 20px 45px -25px rgba(44, 33, 27, 0.35);
+  --shadow-lift: 0 28px 60px -20px rgba(44, 33, 27, 0.4);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.65;
+  background-image:
+    radial-gradient(circle at 8% 0%, rgba(201, 161, 90, 0.14), transparent 45%),
+    radial-gradient(circle at 100% 20%, rgba(217, 168, 160, 0.16), transparent 40%);
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.005em;
+  margin: 0 0 0.5em;
+  color: var(--color-ink);
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+  position: relative;
+}
+
+/* Small caps kicker text above a heading, e.g. "WHAT WE OFFER" */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: 1rem;
+}
+
+.eyebrow::before,
+.eyebrow::after {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.eyebrow--start::before,
+.eyebrow--start::after {
+  display: none;
+}
+
+.eyebrow--start {
+  justify-content: flex-start;
+}
+
+.eyebrow--start::after {
+  display: block;
+}
+
+/* An italic serif flourish word, used sparingly for accent phrases */
+.accent-word {
+  font-family: var(--font-script);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.section {
+  padding-block: clamp(3.5rem, 7vw, 7rem);
+  position: relative;
+}
+
+.section--muted {
+  background: var(--color-surface);
+}
+
+.section--tint {
+  background: linear-gradient(180deg, var(--color-bg-alt), var(--color-bg));
+}
+
+.section-header {
+  text-align: center;
+  max-width: 640px;
+  margin-inline: auto;
+  margin-bottom: 3.5rem;
+}
+
+.section-header p {
+  color: var(--color-muted);
+  font-size: 1.05rem;
+}
+
+.section-header h1,
+.section-header h2 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+}
+
+/* Ornamental divider between sections: a thin line with a diamond mark */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0 auto 2.5rem;
+  width: fit-content;
+  color: var(--color-gold);
+}
+
+.ornament::before,
+.ornament::after {
+  content: '';
+  width: 64px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.ornament::after {
+  background: linear-gradient(90deg, currentColor, transparent);
+}
+
+.ornament svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.grid {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.grid--4 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 2rem 1.85rem;
+  position: relative;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--color-gold-soft), transparent 40%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lift);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.95rem 2rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: #fff8f0;
+  box-shadow: 0 16px 30px -14px rgba(138, 77, 44, 0.65);
+}
+
+.btn--primary:hover {
+  box-shadow: 0 20px 36px -12px rgba(138, 77, 44, 0.75);
+}
+
+.btn--outline {
+  background: transparent;
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-primary-dark);
+}
+
+.btn--outline:hover {
+  background: rgba(179, 105, 63, 0.08);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-primary-dark);
+  padding-inline: 0.25rem;
+  text-decoration: underline;
+  text-decoration-color: var(--color-gold);
+  text-underline-offset: 4px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+
+.tag-list li {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  letter-spacing: 0.01em;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0 1.75rem;
+}
+
+.feature-list li {
+  padding-left: 1.75rem;
+  position: relative;
+  margin-bottom: 0.65rem;
+  color: var(--color-muted);
+}
+
+.feature-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  box-shadow: 0 0 0 3px var(--color-gold-soft);
+}
+
+.cta-banner {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.14), transparent 40%),
+    linear-gradient(135deg, var(--color-primary), var(--color-ink));
+  color: #fdf6ee;
+  border-radius: var(--radius);
+  padding: clamp(2.5rem, 6vw, 4.5rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner .eyebrow {
+  color: var(--color-gold-soft);
+}
+
+.cta-banner h2 {
+  color: #fff;
+}
+
+.cta-banner .btn--outline {
+  border-color: rgba(255, 255, 255, 0.6);
+  color: #fff;
+}
+
+.cta-banner .btn--outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Soft blurred colour blobs used behind hero/sections for depth */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Scroll-reveal: elements fade + rise into place. Falls back to fully
+   visible with no motion if JS is disabled or motion is reduced. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Gentle stagger when several `.reveal` cards sit in the same grid. */
+.grid > .reveal:nth-child(1) { transition-delay: 0s; }
+.grid > .reveal:nth-child(2) { transition-delay: 0.06s; }
+.grid > .reveal:nth-child(3) { transition-delay: 0.12s; }
+.grid > .reveal:nth-child(4) { transition-delay: 0.18s; }
+.grid > .reveal:nth-child(5) { transition-delay: 0.24s; }
+.grid > .reveal:nth-child(6) { transition-delay: 0.3s; }
+.grid > .reveal:nth-child(7) { transition-delay: 0.36s; }
+.grid > .reveal:nth-child(8) { transition-delay: 0.42s; }
+.grid > .reveal:nth-child(9) { transition-delay: 0.48s; }
+.grid > .reveal:nth-child(10) { transition-delay: 0.54s; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

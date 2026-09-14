@@ -1,0 +1,202 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { business } from '../data/business';
+import { breadcrumbSchema } from '../lib/schema';
+
+const title = `Contact Us | ${business.name}`;
+const description = `Get in touch with ${business.name} to plan your event across ${business.locations.join(', ')}.`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  schema={[
+    breadcrumbSchema([
+      { name: 'Home', url: business.url },
+      { name: 'Contact', url: `${business.url}/contact/` },
+    ]),
+  ]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={[{ name: 'Home', href: '/' }, { name: 'Contact', href: '/contact/' }]} />
+  </div>
+
+  <section class="section">
+    <div class="container contact-grid">
+      <div class="reveal">
+        <p class="eyebrow eyebrow--start">Get In Touch</p>
+        <h1>Let's Create Magic Together</h1>
+        <p>
+          Ready to transform your special day? Fill in the form and we'll
+          get back to you, or reach out on Instagram for the fastest
+          response.
+        </p>
+
+        <dl class="contact-details">
+          <div>
+            <dt>Location</dt>
+            <dd>
+              {business.address.streetAddress}<br />
+              {business.address.addressLocality} {business.address.postalCode}, UK
+            </dd>
+          </div>
+          <div>
+            <dt>Hours</dt>
+            <dd>{business.hours.days}<br />{business.hours.display}</dd>
+          </div>
+          <div>
+            <dt>Call</dt>
+            <dd><a href={`tel:${business.phone.replace(/\s+/g, '')}`}>{business.phone}</a></dd>
+          </div>
+        </dl>
+
+        <ul class="tag-list">
+          {business.locations.map((location) => <li>{location}</li>)}
+        </ul>
+      </div>
+
+      <div class="card contact-form-card reveal">
+        <p id="form-success" class="form-banner form-banner--success" hidden>
+          Thanks — your enquiry is on its way. We'll be in touch shortly.
+        </p>
+        <p id="form-error" class="form-banner form-banner--error" hidden>
+          Something went wrong sending that. Please try again, or message us
+          on Instagram instead.
+        </p>
+
+        <!--
+          Posts to src/pages/api/contact.ts, the one server-rendered route
+          in the site — it calls Resend with a secret API key and redirects
+          back here with ?status=sent|error. This page itself stays static;
+          the script below just reads that query param to show a banner.
+        -->
+        <form id="contact-form" method="POST" action="/api/contact">
+          <label>
+            Name
+            <input type="text" name="name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" required />
+          </label>
+          <label>
+            Event date
+            <input type="date" name="event-date" />
+          </label>
+          <label>
+            Message
+            <textarea name="message" rows="4" required></textarea>
+          </label>
+          <button class="btn btn--primary" type="submit">Send Enquiry</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .contact-details {
+    margin: 1.5rem 0;
+  }
+
+  .contact-details div {
+    margin-bottom: 1rem;
+  }
+
+  .contact-details dt {
+    font-weight: 600;
+    color: var(--color-primary-dark);
+  }
+
+  .contact-details dd {
+    margin: 0;
+    color: var(--color-muted);
+  }
+
+  .contact-form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-form-card label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .contact-form-card input,
+  .contact-form-card textarea {
+    font: inherit;
+    padding: 0.7rem 0.9rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+
+  .contact-form-card input:focus,
+  .contact-form-card textarea:focus {
+    outline: none;
+    border-color: var(--color-gold);
+    box-shadow: 0 0 0 3px var(--color-gold-soft);
+  }
+
+  @media (max-width: 780px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-banner {
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .form-banner--success {
+    background: #eaf6ec;
+    color: #1e4620;
+  }
+
+  .form-banner--error {
+    background: #fbeaea;
+    color: #611a1a;
+  }
+</style>
+
+<script>
+  // Progressive-enhancement only: the form works with plain HTML POST +
+  // server redirect even with this script disabled. This just reads the
+  // ?status= the API route redirected back with and turns it into a
+  // banner, then tidies the URL so a refresh doesn't re-show it.
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get('status');
+
+  if (status === 'sent' || status === 'error') {
+    const banner = document.getElementById(
+      status === 'sent' ? 'form-success' : 'form-error'
+    );
+    banner?.removeAttribute('hidden');
+
+    if (status === 'sent') {
+      document.getElementById('contact-form')?.setAttribute('hidden', '');
+    }
+
+    params.delete('status');
+    const cleanUrl =
+      window.location.pathname +
+      (params.toString() ? `?${params.toString()}` : '');
+    window.history.replaceState({}, '', cleanUrl);
+  }
+</script>

@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CTASection from '../components/CTASection.astro';
+import { business } from '../data/business';
+import { breadcrumbSchema } from '../lib/schema';
+
+// The current site's "gallery" is really an embedded Instagram feed with no
+// gallery of its own. For the rebuild, prefer real, self-hosted photos
+// (via astro:assets, so they get automatic width/height + modern formats
+// for SEO/CLS) over a feed you don't control.
+//
+// Until real photography is ready, these tiles use the same line-art style
+// as the hero emblem instead of a flat "Photo 1" box, so the page still
+// looks finished rather than obviously unfinished. Captions describe the
+// kind of work shown on the current Instagram feed. Swap `tiles` for real
+// <Image> entries once photos are supplied.
+const tiles = [
+  { caption: 'Baby Shower Balloon Décor', tone: 'rose' },
+  { caption: 'Storybook Birthday Setup', tone: 'gold' },
+  { caption: '50th Wedding Anniversary', tone: 'primary' },
+  { caption: 'Nikkah Home Décor', tone: 'gold' },
+  { caption: 'Dessert Table Styling', tone: 'rose' },
+  { caption: 'Umrah Send-off Backdrop', tone: 'primary' },
+  { caption: '18th Birthday Balloon Wall', tone: 'gold' },
+  { caption: 'Floral Backdrop Arrangement', tone: 'rose' },
+  { caption: 'Luxury Tablescape', tone: 'primary' },
+];
+
+const title = `Gallery | ${business.name}`;
+const description = `Browse Riverstone Event's portfolio of event decoration across ${business.locations.join(', ')}.`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  schema={[
+    breadcrumbSchema([
+      { name: 'Home', url: business.url },
+      { name: 'Gallery', url: `${business.url}/gallery/` },
+    ]),
+  ]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={[{ name: 'Home', href: '/' }, { name: 'Gallery', href: '/gallery/' }]} />
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Our Portfolio</p>
+        <h1>A Showcase of Elegance</h1>
+        <p>{description}</p>
+      </div>
+
+      <div class="gallery-grid">
+        {tiles.map((tile) => (
+          <figure class={`gallery-tile gallery-tile--${tile.tone} reveal`}>
+            <svg viewBox="0 0 40 40" class="gallery-tile__mark" aria-hidden="true">
+              <circle cx="20" cy="20" r="18" />
+              <path d="M20 10c2.2 2.6 3.4 5 3.4 7.4 0 2.4-1.5 4-3.4 4s-3.4-1.6-3.4-4c0-2.4 1.2-4.8 3.4-7.4Z" />
+            </svg>
+            <figcaption>{tile.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+      <p class="gallery-note">
+        Real event photography coming soon — follow along on
+        {' '}<a href={business.instagram} target="_blank" rel="noopener">Instagram</a> in the meantime.
+      </p>
+    </div>
+  </section>
+
+  <CTASection
+    title="See More on Instagram"
+    description={`Follow us for daily inspiration and the latest event decorations from ${business.locations.join(', ')}.`}
+  />
+</BaseLayout>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .gallery-tile {
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  }
+
+  .gallery-tile:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .gallery-tile--rose {
+    background: linear-gradient(160deg, var(--color-rose-soft), var(--color-surface) 70%);
+  }
+
+  .gallery-tile--gold {
+    background: linear-gradient(160deg, var(--color-gold-soft), var(--color-surface) 70%);
+  }
+
+  .gallery-tile--primary {
+    background: linear-gradient(160deg, #e7c3ad, var(--color-surface) 70%);
+  }
+
+  .gallery-tile__mark {
+    width: 40px;
+    height: 40px;
+    fill: none;
+    stroke: var(--color-primary-dark);
+    stroke-width: 1.1;
+    opacity: 0.8;
+  }
+
+  .gallery-tile figcaption {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--color-ink);
+  }
+
+  .gallery-note {
+    margin-top: 2rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .gallery-note a {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+  }
+</style>

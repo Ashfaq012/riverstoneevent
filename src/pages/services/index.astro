@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTASection from '../../components/CTASection.astro';
+import { business } from '../../data/business';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const services = (await getCollection('services')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const title = `Event Decoration Services | ${business.name}`;
+const description = `Premium event decoration services across ${business.locations.join(', ')} — weddings, birthdays, proposals, baby showers and more.`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  schema={[
+    breadcrumbSchema([
+      { name: 'Home', url: business.url },
+      { name: 'Services', url: `${business.url}/services/` },
+    ]),
+  ]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={[{ name: 'Home', href: '/' }, { name: 'Services', href: '/services/' }]} />
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Our Services</p>
+        <h1>Premium Event Decoration Services in London & Hertfordshire</h1>
+        <p>{description}</p>
+      </div>
+
+      <ul class="tag-list location-list">
+        {business.locations.map((location) => <li>{location}</li>)}
+      </ul>
+
+      <div class="grid grid--3 services-grid">
+        {services.map((service) => (
+          <a class="card service-card reveal" href={`/services/${service.id}/`}>
+            <span class="service-card__rule" aria-hidden="true"></span>
+            <p class="eyebrow eyebrow--start">{service.data.eyebrow}</p>
+            <h2>{service.data.title}</h2>
+            <p>{service.data.summary}</p>
+            <span class="service-card__link">
+              Enquire Now
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection title="Ready to Transform Your Event?" />
+</BaseLayout>
+
+<style>
+  .location-list {
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+
+  .services-grid {
+    margin-top: 1rem;
+  }
+
+  .service-card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .service-card__rule {
+    display: block;
+    width: 34px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-primary));
+    margin-bottom: 1rem;
+    transition: width 0.35s var(--ease);
+  }
+
+  .service-card:hover .service-card__rule {
+    width: 56px;
+  }
+
+  .service-card .eyebrow {
+    margin-bottom: 0.4rem;
+  }
+
+  .service-card p {
+    color: var(--color-muted);
+    flex-grow: 1;
+  }
+
+  .service-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .service-card__link svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.3s var(--ease);
+  }
+
+  .service-card:hover .service-card__link svg {
+    transform: translateX(4px);
+  }
+</style>

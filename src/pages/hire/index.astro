@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import HireCard from '../../components/HireCard.astro';
+import CTASection from '../../components/CTASection.astro';
+import { business } from '../../data/business';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const hireItems = (await getCollection('hireItems')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const title = `Event Decoration Hire | ${business.name}`;
+const description = `Hire luxury backdrops, plinths, dessert table setups and flower arches across ${business.locations.join(', ')}.`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  schema={[
+    breadcrumbSchema([
+      { name: 'Home', url: business.url },
+      { name: 'Hire', url: `${business.url}/hire/` },
+    ]),
+  ]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={[{ name: 'Home', href: '/' }, { name: 'Hire', href: '/hire/' }]} />
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="eyebrow">Hire Collection</p>
+        <h1>Event Decoration Hire</h1>
+        <p>{description}</p>
+      </div>
+      <div class="grid grid--4">
+        {hireItems.map((item) => (
+          <HireCard
+            href={`/hire/${item.id}/`}
+            title={item.data.title}
+            items={item.data.items}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection title="Ready to Book Your Hire Items?" />
+</BaseLayout>

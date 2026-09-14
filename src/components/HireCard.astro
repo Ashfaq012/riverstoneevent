@@ -1,0 +1,49 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  items: string[];
+}
+
+const { href, title, items } = Astro.props;
+---
+
+<div class="card hire-card reveal">
+  <span class="hire-card__rule" aria-hidden="true"></span>
+  <h3>{title}</h3>
+  <p class="hire-card__label">Available items</p>
+  <ul class="tag-list">
+    {items.slice(0, 4).map((item) => <li>{item}</li>)}
+  </ul>
+  <a class="btn btn--primary hire-card__cta" href={href}>Book Now</a>
+</div>
+
+<style>
+  .hire-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hire-card__rule {
+    display: block;
+    width: 34px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-rose));
+    margin-bottom: 1.1rem;
+  }
+
+  .hire-card__label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    margin-bottom: 0;
+  }
+
+  .hire-card__cta {
+    margin-top: 1.5rem;
+    text-align: center;
+    justify-content: center;
+  }
+</style>

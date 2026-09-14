@@ -1,0 +1,81 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTASection from '../../components/CTASection.astro';
+import { business } from '../../data/business';
+import { serviceSchema, breadcrumbSchema } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map((service) => ({
+    params: { slug: service.id },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { Content } = await render(service);
+const url = `${business.url}/services/${service.id}/`;
+---
+
+<BaseLayout
+  title={service.data.seoTitle}
+  description={service.data.seoDescription}
+  schema={[
+    serviceSchema({
+      name: service.data.title,
+      description: service.data.seoDescription,
+      url,
+    }),
+    breadcrumbSchema([
+      { name: 'Home', url: business.url },
+      { name: 'Services', url: `${business.url}/services/` },
+      { name: service.data.title, url },
+    ]),
+  ]}
+>
+  <div class="container">
+    <Breadcrumbs
+      crumbs={[
+        { name: 'Home', href: '/' },
+        { name: 'Services', href: '/services/' },
+        { name: service.data.title, href: `/services/${service.id}/` },
+      ]}
+    />
+  </div>
+
+  <article class="section service-detail">
+    <div class="container service-detail__grid reveal">
+      <div>
+        <span class="service-detail__rule" aria-hidden="true"></span>
+        <p class="eyebrow eyebrow--start">{service.data.eyebrow}</p>
+        <h1>{service.data.title}</h1>
+        <Content />
+        {service.data.features.length > 0 && (
+          <ul class="feature-list">
+            {service.data.features.map((feature) => <li>{feature}</li>)}
+          </ul>
+        )}
+        <a class="btn btn--primary" href="/contact/">Enquire Now</a>
+      </div>
+    </div>
+  </article>
+
+  <CTASection title={`Ready to Book ${service.data.title}?`} />
+</BaseLayout>
+
+<style>
+  .service-detail__grid {
+    max-width: 760px;
+  }
+
+  .service-detail__rule {
+    display: block;
+    width: 48px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-primary));
+    margin-bottom: 1.25rem;
+  }
+</style>
