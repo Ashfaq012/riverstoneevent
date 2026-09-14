@@ -4,7 +4,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import HireCard from '../components/HireCard.astro';
 import CTASection from '../components/CTASection.astro';
-import FloralEmblem from '../components/FloralEmblem.astro';
 import Ornament from '../components/Ornament.astro';
 import { business } from '../data/business';
 
@@ -58,7 +57,12 @@ const whyUs = [
         </ul>
       </div>
       <div class="hero__art reveal" aria-hidden="true">
-        <FloralEmblem letter="R" />
+        <img
+          src="/brand/logo-monogram-900.png"
+          width="900"
+          height="900"
+          alt=""
+        />
       </div>
     </div>
   </section>
@@ -220,7 +224,7 @@ const whyUs = [
     width: 34px;
     height: 3px;
     border-radius: 2px;
-    background: linear-gradient(90deg, var(--color-gold), var(--color-primary));
+    background: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary));
     margin-bottom: 1.1rem;
   }
 

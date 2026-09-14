@@ -11,7 +11,8 @@ export function localBusinessSchema() {
     description: business.description,
     url: business.url,
     telephone: business.phone,
-    image: `${business.url}/og-default.jpg`,
+    image: `${business.url}/og-default.png`,
+    logo: `${business.url}/brand/logo-header.png`,
     priceRange: '££',
     address: {
       '@type': 'PostalAddress',

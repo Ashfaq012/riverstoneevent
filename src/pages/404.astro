@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import FloralEmblem from '../components/FloralEmblem.astro';
 ---
 
 <BaseLayout
@@ -8,9 +7,13 @@ import FloralEmblem from '../components/FloralEmblem.astro';
   description="The page you're looking for doesn't exist."
 >
   <section class="section container not-found">
-    <div class="not-found__art" aria-hidden="true">
-      <FloralEmblem letter="?" />
-    </div>
+    <img
+      class="not-found__art"
+      src="/brand/logo-monogram-900.png"
+      width="140"
+      height="140"
+      alt=""
+    />
     <p class="eyebrow">404</p>
     <h1>We couldn't find that page</h1>
     <p>It may have moved, or the link might be out of date.</p>
@@ -27,6 +30,7 @@ import FloralEmblem from '../components/FloralEmblem.astro';
 
   .not-found__art {
     width: 140px;
+    height: auto;
     margin: 0 auto 1.5rem;
   }
 </style>

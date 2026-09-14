@@ -8,6 +8,14 @@ const year = new Date().getFullYear();
   <div class="footer-divider" aria-hidden="true"></div>
   <div class="container footer-grid">
     <div>
+      <img
+        class="footer-logo"
+        src="/brand/logo-footer.png"
+        width="64"
+        height="77"
+        alt={`${business.name} logo`}
+        loading="lazy"
+      />
       <p class="footer-brand">{business.name}</p>
       <p class="footer-tagline">{business.tagline}</p>
       <p>{business.description}</p>
@@ -57,6 +65,12 @@ const year = new Date().getFullYear();
     grid-template-columns: 2fr 1fr 1fr;
     gap: 2.5rem;
     margin-top: 1rem;
+  }
+
+  .footer-logo {
+    width: 56px;
+    height: auto;
+    margin-bottom: 1rem;
   }
 
   .footer-brand {
