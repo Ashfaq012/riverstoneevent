@@ -1,14 +1,6 @@
 ---
 import { business } from '../data/business';
-
-const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/about/', label: 'About' },
-  { href: '/services/', label: 'Services' },
-  { href: '/hire/', label: 'Hire' },
-  { href: '/gallery/', label: 'Gallery' },
-  { href: '/contact/', label: 'Contact' },
-];
+import { mainNav } from '../data/nav';
 
 const path = Astro.url.pathname;
 ---
@@ -30,7 +22,7 @@ const path = Astro.url.pathname;
     </a>
     <nav aria-label="Primary">
       <ul>
-        {navItems.map((item) => (
+        {mainNav.map((item) => (
           <li>
             <a
               href={item.href}

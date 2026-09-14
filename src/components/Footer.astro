@@ -1,8 +1,32 @@
 ---
+// Restyled to match the client's current live footer (dark background,
+// gold section labels, 4-column layout) rather than the site's lighter
+// blush palette used everywhere else — a deliberate one-off, not a
+// sitewide palette change.
 import { business } from '../data/business';
+import { mainNav } from '../data/nav';
 import InstagramIcon from './icons/InstagramIcon.astro';
+import TikTokIcon from './icons/TikTokIcon.astro';
+import LocationIcon from './icons/LocationIcon.astro';
+import PhoneIcon from './icons/PhoneIcon.astro';
+import MailIcon from './icons/MailIcon.astro';
 
 const year = new Date().getFullYear();
+
+// A short, curated subset for the footer's "Our Services" column — the
+// full list of 10 lives at /services/.
+const footerServices = [
+  { label: 'Weddings', href: '/services/wedding-decoration/' },
+  { label: 'Birthday Parties', href: '/services/birthday-party-decoration/' },
+  { label: 'Proposals', href: '/services/proposal-setups/' },
+  { label: 'Baby Showers', href: '/services/baby-shower-decoration/' },
+  { label: 'Floral Arrangements', href: '/services/floral-arrangements/' },
+];
+
+const socialLinks = [
+  { label: 'Instagram', href: business.instagram, Icon: InstagramIcon },
+  { label: 'TikTok', href: business.tiktok, Icon: TikTokIcon },
+];
 ---
 
 <footer class="site-footer">
@@ -17,45 +41,90 @@ const year = new Date().getFullYear();
         alt={`${business.name} logo`}
         loading="lazy"
       />
-      <p class="footer-brand">{business.name}</p>
-      <p class="footer-tagline">{business.tagline}</p>
-      <p>{business.description}</p>
-      <a class="btn btn--outline" href={business.instagram} rel="noopener" target="_blank">
-        <InstagramIcon class="btn__icon" />
-        Follow {business.instagramHandle}
-      </a>
+      <h3>About</h3>
+      <p>
+        Creating unforgettable moments with elegant and luxurious event
+        decorations across London &amp; Hertfordshire.
+      </p>
+      <ul class="footer-social">
+        {socialLinks.map(({ label, href, Icon }) => (
+          <li>
+            <a href={href} rel="noopener" target="_blank" aria-label={label}>
+              <Icon class="footer-social__icon" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h3>Quick Links</h3>
+      <ul class="footer-links">
+        {mainNav.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h3>Our Services</h3>
+      <ul class="footer-links">
+        {footerServices.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
     </div>
 
     <div>
       <h3>Contact</h3>
-      <p>
-        {business.address.streetAddress}<br />
-        {business.address.addressLocality} {business.address.postalCode}, UK
-      </p>
-      <p><a href={`tel:${business.phone.replace(/\s+/g, '')}`}>{business.phone}</a></p>
-      <p>{business.hours.days}, {business.hours.display}</p>
-    </div>
-
-    <div>
-      <h3>Areas We Serve</h3>
-      <ul class="location-list">
-        {business.locations.map((location) => <li>{location}</li>)}
+      <ul class="footer-contact">
+        <li>
+          <LocationIcon class="footer-contact__icon" />
+          <span>
+            {business.address.streetAddress}, {business.address.addressLocality}{' '}
+            {business.address.postalCode}, United Kingdom
+          </span>
+        </li>
+        <li>
+          <PhoneIcon class="footer-contact__icon" />
+          <a href={`tel:${business.phone.replace(/\s+/g, '')}`}>{business.phone}</a>
+        </li>
+        <li>
+          <InstagramIcon class="footer-contact__icon" />
+          <a href={business.instagram} rel="noopener" target="_blank">
+            {business.instagramHandle}
+          </a>
+        </li>
+        <li>
+          <MailIcon class="footer-contact__icon" />
+          <a href={`mailto:${business.email}`}>{business.email}</a>
+        </li>
       </ul>
     </div>
   </div>
 
   <div class="container footer-bottom">
-    <p>&copy; {year} {business.name}. All rights reserved.</p>
     <p>
-      Developed by{' '}
+      &copy; {year} <span class="footer-bottom__brand">{business.name}</span>. All
+      rights reserved. · Developed by{' '}
       <a href="https://digitizexlabs.com" rel="noopener" target="_blank">DigitizeX Labs</a>
+    </p>
+    <p class="footer-bottom__legal">
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/terms-and-conditions/">Terms &amp; Conditions</a>
     </p>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    background: var(--color-ink);
+    /* A deliberately dark, near-black footer with gold accents — matched
+       to the client's current live site rather than the light blush
+       palette used everywhere else on this rebuild. */
+    background:
+      radial-gradient(circle at 15% 0%, rgba(201, 161, 90, 0.05), transparent 55%),
+      radial-gradient(circle at 85% 100%, rgba(201, 161, 90, 0.05), transparent 55%),
+      #121212;
     color: #fff;
     padding-block: 3.5rem 1.75rem;
     position: relative;
@@ -63,12 +132,12 @@ const year = new Date().getFullYear();
 
   .footer-divider {
     height: 3px;
-    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    background: linear-gradient(90deg, transparent, #c9a15a, transparent);
   }
 
   .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
     gap: 2.5rem;
     margin-top: 1rem;
   }
@@ -79,28 +148,13 @@ const year = new Date().getFullYear();
     margin-bottom: 1rem;
   }
 
-  .footer-brand {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 0.15rem;
-  }
-
-  .footer-tagline {
-    font-family: var(--font-script);
-    font-style: italic;
-    color: var(--color-gold-soft);
-    margin-bottom: 1rem;
-  }
-
   .site-footer h3 {
     font-family: var(--font-body);
     font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-gold-soft);
-    margin-bottom: 1rem;
+    letter-spacing: 0.14em;
+    color: #c9a15a;
+    margin-bottom: 1.1rem;
   }
 
   .site-footer a {
@@ -108,22 +162,76 @@ const year = new Date().getFullYear();
   }
 
   .site-footer p {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.68);
   }
 
-  .location-list {
+  .footer-social {
+    display: flex;
+    gap: 0.6rem;
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0 0;
+  }
+
+  .footer-social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 9px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .footer-social a:hover {
+    border-color: #c9a15a;
+    background: rgba(201, 161, 90, 0.1);
+  }
+
+  .footer-links {
     list-style: none;
     padding: 0;
     margin: 0;
-    columns: 2;
-    gap: 1rem;
+  }
+
+  .footer-links li {
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-links a:hover {
+    color: #c9a15a;
+  }
+
+  .footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-contact li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-bottom: 1rem;
     color: rgba(255, 255, 255, 0.75);
   }
 
-  .location-list li {
-    margin-bottom: 0.5rem;
-    break-inside: avoid;
+  .footer-contact a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
   }
+
+  .footer-contact a:hover {
+    color: #c9a15a;
+  }
+
 
   .footer-bottom {
     display: flex;
@@ -141,6 +249,15 @@ const year = new Date().getFullYear();
     color: rgba(255, 255, 255, 0.55);
   }
 
+  .footer-bottom__brand {
+    color: #c9a15a;
+  }
+
+  .footer-bottom__legal {
+    display: flex;
+    gap: 1.5rem;
+  }
+
   .footer-bottom a {
     color: rgba(255, 255, 255, 0.75);
     text-decoration: underline;
@@ -149,10 +266,16 @@ const year = new Date().getFullYear();
   }
 
   .footer-bottom a:hover {
-    color: #fff;
+    color: #c9a15a;
   }
 
-  @media (max-width: 780px) {
+  @media (max-width: 900px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
     .footer-grid {
       grid-template-columns: 1fr;
     }

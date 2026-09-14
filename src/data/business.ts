@@ -20,8 +20,7 @@ export const business = {
     'Luxury event decoration and hire services for weddings, birthdays, proposals, baby showers and more, serving Watford, Wembley, Hemel Hempstead, Slough, Bushey, Luton and Harrow.',
   url: 'https://riverstoneevent.com',
   phone: '+44 7863 319472',
-  // TODO: confirm a public business email — none was published on the
-  // current site, so this is a placeholder.
+  // Confirmed live on the current site's footer.
   email: 'hello@riverstoneevent.com',
   address: {
     streetAddress: 'Flat 2, Crown Lodge',
@@ -38,6 +37,8 @@ export const business = {
   // TODO: verify this is the live, correct handle before launch.
   instagram: 'https://www.instagram.com/riverstoneevent/',
   instagramHandle: '@riverstoneevent',
+  tiktok: 'https://www.tiktok.com/@riverstoneevent',
+  // No confirmed Facebook page yet — don't link one until there is.
   locations,
 } as const;
 

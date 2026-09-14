@@ -7,7 +7,15 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   // TODO: swap for the real production domain before launch.
   site: 'https://riverstoneevent.com',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // Keep draft/noindex pages out of the sitemap too, not just out of
+      // search results — no point pointing crawlers at them.
+      filter: (page) =>
+        !page.includes('/privacy-policy/') &&
+        !page.includes('/terms-and-conditions/'),
+    }),
+  ],
   // Everything still prerenders to static HTML by default. The adapter only
   // switches on for routes that opt out with `export const prerender = false`
   // — currently just src/pages/api/contact.ts, which needs to run server-side

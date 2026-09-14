@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { business } from '../data/business';
+import { breadcrumbSchema } from '../lib/schema';
+
+const title = `Privacy Policy | ${business.name}`;
+const description = `How ${business.name} collects and uses information submitted through this website.`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  noindex
+  schema={[
+    breadcrumbSchema([
+      { name: 'Home', url: business.url },
+      { name: 'Privacy Policy', url: `${business.url}/privacy-policy/` },
+    ]),
+  ]}
+>
+  <div class="container">
+    <Breadcrumbs
+      crumbs={[{ name: 'Home', href: '/' }, { name: 'Privacy Policy', href: '/privacy-policy/' }]}
+    />
+  </div>
+
+  <section class="section legal">
+    <div class="container legal__grid">
+      <p class="eyebrow eyebrow--start">Privacy Policy</p>
+      <h1>Privacy Policy</h1>
+
+      <p class="legal__notice">
+        <strong>Draft, not yet reviewed.</strong> This page describes, in
+        plain terms, what actually happens with information submitted
+        through this website today. It has not been reviewed by a
+        solicitor and should be checked against current UK GDPR
+        requirements — and updated if analytics, cookies, or other
+        tracking are added later — before being relied on.
+      </p>
+
+      <h2>What we collect</h2>
+      <p>
+        The only personal information this website collects is what you
+        choose to submit through the contact form: your name, email
+        address, an optional event date, and your message. There is no
+        account system, no cookies, and no analytics or tracking scripts
+        running on this site.
+      </p>
+
+      <h2>How it's used</h2>
+      <p>
+        Contact form submissions are sent by email to {business.name} via{' '}
+        <a href="https://resend.com" target="_blank" rel="noopener">Resend</a>,
+        our email delivery provider, solely to respond to your enquiry. We
+        don't sell or share this information with anyone else.
+      </p>
+
+      <h2>How long we keep it</h2>
+      <p>
+        Enquiries are kept for as long as reasonably needed to respond to
+        you and for our own business records, then deleted.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        Under UK GDPR you can ask what information we hold about you, ask
+        us to correct or delete it, or withdraw consent. Contact us at{' '}
+        <a href={`mailto:${business.email}`}>{business.email}</a> to do so.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        {business.name}, {business.address.streetAddress},{' '}
+        {business.address.addressLocality} {business.address.postalCode},
+        United Kingdom.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal__grid {
+    max-width: 720px;
+  }
+
+  .legal__notice {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    font-size: 0.92rem;
+  }
+
+  .legal h2 {
+    margin-top: 2rem;
+    font-size: 1.3rem;
+  }
+</style>

@@ -26,6 +26,7 @@ src/
   lib/schema.ts          JSON-LD builders
   layouts/BaseLayout.astro   <head>, meta, schema injection, header/footer
   components/            Header, Footer, ServiceCard, HireCard, CTASection, Breadcrumbs
+  components/icons/      Instagram, WhatsApp, TikTok, Location, Phone, Mail
   pages/
     index.astro
     about.astro
@@ -35,8 +36,19 @@ src/
     hire/[slug].astro       ← one indexable URL per hire category
     gallery.astro
     contact.astro
+    privacy-policy.astro         ← draft only, noindex — see below
+    terms-and-conditions.astro   ← draft only, noindex — see below
     404.astro
 ```
+
+**Gotcha when styling an icon component:** each file in `components/icons/`
+renders its own `<svg>`. If you size one from a *parent* component's scoped
+`<style>` block (e.g. a rule inside `Footer.astro` targeting
+`.some-icon-class`), it silently won't apply — Astro's scoped-style
+attribute is added per-file, so the icon's `<svg>` never carries the
+parent's scope id and falls back to the browser's oversized default SVG
+size. Icon sizing rules (`.btn__icon`, `.footer-contact__icon`,
+`.footer-social__icon`) live in `global.css` instead, which isn't scoped.
 
 ## Contact form (Resend)
 
@@ -120,8 +132,14 @@ The real brand mark and colour palette are in — no more placeholder line-art.
   event photos into `src/assets/` and swap the placeholder grid in
   `gallery.astro` for `astro:assets` `<Image>` components (auto WebP/AVIF +
   width/height, which also fixes CLS).
-- **Business email** in `src/data/business.ts` is a placeholder; only a
-  phone number and Instagram were published on the current site.
+- **`privacy-policy.astro` and `terms-and-conditions.astro` are drafts**,
+  `noindex`ed and excluded from the sitemap. The privacy policy honestly
+  describes what this site actually does today (contact form → Resend,
+  no cookies/analytics) but hasn't been reviewed by a solicitor. The terms
+  page is a bare structural skeleton with bracketed placeholders — none of
+  the deposit/cancellation/liability specifics are real; they need
+  Riverstone Event's actual policies filled in before this goes live and
+  the `noindex` comes off.
 - **"Events Decorated" / "Years Experience" counters** on the About page
   were animated placeholders on the live site (rendering as 0) — get the
   real numbers from the client rather than inventing them.

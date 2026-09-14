@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { business } from '../data/business';
+import { breadcrumbSchema } from '../lib/schema';
+
+const title = `Terms & Conditions | ${business.name}`;
+const description = `Booking terms and conditions for ${business.name} event decoration and hire services.`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  noindex
+  schema={[
+    breadcrumbSchema([
+      { name: 'Home', url: business.url },
+      { name: 'Terms & Conditions', url: `${business.url}/terms-and-conditions/` },
+    ]),
+  ]}
+>
+  <div class="container">
+    <Breadcrumbs
+      crumbs={[
+        { name: 'Home', href: '/' },
+        { name: 'Terms & Conditions', href: '/terms-and-conditions/' },
+      ]}
+    />
+  </div>
+
+  <section class="section legal">
+    <div class="container legal__grid">
+      <p class="eyebrow eyebrow--start">Terms &amp; Conditions</p>
+      <h1>Terms &amp; Conditions</h1>
+
+      <p class="legal__notice">
+        <strong>Placeholder — needs your actual booking terms.</strong> This
+        page is a structural draft only. None of the specifics below
+        (deposits, cancellation windows, liability) are real business
+        terms — they're bracketed prompts for {business.name} to fill in
+        with the terms actually offered to clients, ideally reviewed by a
+        solicitor before publishing.
+      </p>
+
+      <h2>Bookings &amp; deposits</h2>
+      <p>[Add your deposit amount/percentage and how bookings are confirmed.]</p>
+
+      <h2>Cancellations &amp; rescheduling</h2>
+      <p>[Add your cancellation notice period and any rescheduling fees.]</p>
+
+      <h2>Hire items</h2>
+      <p>
+        [Add terms for hire items — condition on return, damage/loss
+        charges, collection/delivery windows.]
+      </p>
+
+      <h2>Liability</h2>
+      <p>[Add your liability terms for setup, venue access, and event-day issues.]</p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about a booking? Contact us at{' '}
+        <a href={`mailto:${business.email}`}>{business.email}</a> or{' '}
+        <a href={`tel:${business.phone.replace(/\s+/g, '')}`}>{business.phone}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal__grid {
+    max-width: 720px;
+  }
+
+  .legal__notice {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    font-size: 0.92rem;
+  }
+
+  .legal h2 {
+    margin-top: 2rem;
+    font-size: 1.3rem;
+  }
+</style>
