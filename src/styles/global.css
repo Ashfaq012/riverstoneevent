@@ -82,6 +82,14 @@ a {
 
 img {
   max-width: 100%;
+  /* Without this, an <img> with both HTML width/height attributes set (for
+     layout-shift prevention) keeps its literal `height` in pixels even as
+     `max-width: 100%` shrinks the width to fit a narrower container — the
+     browser doesn't re-derive height from the image's aspect ratio unless
+     told to. That silently stretched/distorted the hero logo full-height
+     while its width shrank to fit. `height: auto` is what makes width and
+     height scale together. */
+  height: auto;
   display: block;
 }
 
