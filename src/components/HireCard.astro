@@ -4,25 +4,33 @@
 // (same pattern as ServiceCard), and the one enquiry CTA for the section
 // lives once, below the grid, pointing straight to /contact/.
 //
-// The thumbnail is a placeholder (same visual language as the Gallery
-// tiles), not a real product photo — there's no hire-item photography yet.
-// Swap the placeholder div for a real <Image> per item once photos exist.
+// `image` is optional: only items with a real matching photo (see
+// data/hireImages.ts) get one. Everything else falls back to the
+// placeholder thumbnail (same visual language as the Gallery tiles) —
+// never a stand-in photo pretending to be that specific item.
+import { Image } from 'astro:assets';
+
 interface Props {
   href: string;
   title: string;
   eyebrow: string;
   items: string[];
+  image?: { src: ImageMetadata; alt: string };
 }
 
-const { href, title, eyebrow, items } = Astro.props;
+const { href, title, eyebrow, items, image } = Astro.props;
 ---
 
 <a class="card hire-card reveal" href={href}>
-  <div class="hire-card__thumb" aria-hidden="true">
-    <svg viewBox="0 0 40 40" class="hire-card__thumb-icon" aria-hidden="true">
-      <circle cx="20" cy="20" r="18" />
-      <path d="M20 10c2.2 2.6 3.4 5 3.4 7.4 0 2.4-1.5 4-3.4 4s-3.4-1.6-3.4-4c0-2.4 1.2-4.8 3.4-7.4Z" />
-    </svg>
+  <div class="hire-card__thumb" class:list={{ 'hire-card__thumb--photo': !!image }}>
+    {image ? (
+      <Image src={image.src} alt={image.alt} width={480} height={360} />
+    ) : (
+      <svg viewBox="0 0 40 40" class="hire-card__thumb-icon" aria-hidden="true">
+        <circle cx="20" cy="20" r="18" />
+        <path d="M20 10c2.2 2.6 3.4 5 3.4 7.4 0 2.4-1.5 4-3.4 4s-3.4-1.6-3.4-4c0-2.4 1.2-4.8 3.4-7.4Z" />
+      </svg>
+    )}
   </div>
   <span class="hire-card__rule" aria-hidden="true"></span>
   <p class="hire-card__category">{eyebrow}</p>
@@ -56,6 +64,17 @@ const { href, title, eyebrow, items } = Astro.props;
     align-items: center;
     justify-content: center;
     background: linear-gradient(160deg, var(--color-bg-alt), var(--color-surface) 70%);
+    overflow: hidden;
+  }
+
+  .hire-card__thumb--photo {
+    background: var(--color-bg-alt);
+  }
+
+  .hire-card__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .hire-card__thumb-icon {

@@ -11,6 +11,7 @@ import HowItWorks from '../components/HowItWorks.astro';
 import Faq from '../components/Faq.astro';
 import { business } from '../data/business';
 import { faqs } from '../data/faq';
+import { hireImages } from '../data/hireImages';
 import { faqSchema } from '../lib/schema';
 
 const services = (await getCollection('services')).sort(
@@ -127,6 +128,7 @@ const whyUs = [
             title={item.data.title}
             eyebrow={item.data.eyebrow}
             items={item.data.items}
+            image={hireImages[item.id]}
           />
         ))}
       </div>

@@ -5,6 +5,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import HireCard from '../../components/HireCard.astro';
 import CTASection from '../../components/CTASection.astro';
 import { business } from '../../data/business';
+import { hireImages } from '../../data/hireImages';
 import { breadcrumbSchema } from '../../lib/schema';
 
 const hireItems = (await getCollection('hireItems')).sort(
@@ -48,6 +49,7 @@ const description = `Hire luxury backdrops, plinths, dessert table setups and fl
             title={item.data.title}
             eyebrow={item.data.eyebrow}
             items={item.data.items}
+            image={hireImages[item.id]}
           />
         ))}
       </div>

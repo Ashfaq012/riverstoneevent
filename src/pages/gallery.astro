@@ -1,31 +1,65 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CTASection from '../components/CTASection.astro';
 import { business } from '../data/business';
 import { breadcrumbSchema } from '../lib/schema';
 
-// The current site's "gallery" is really an embedded Instagram feed with no
-// gallery of its own, and there's no real Riverstone event photography in
-// this project to use instead. Rather than leave a bare "coming soon"
-// notice, this page is structured as the eventual gallery — one tile per
-// category, in the same line-art placeholder style as the hire cards, each
-// clearly labelled "Coming soon" so nothing here is mistaken for real
-// client work. Swap `categories` for real <Image> entries (grouped the
-// same way) once photography exists.
+import seventiethBirthday from '../assets/gallery/seventieth-birthday-celebration.jpg';
+import bumblebeeArch from '../assets/gallery/bumblebee-balloon-arch.jpg';
+import graduationBackdrop from '../assets/gallery/graduation-balloon-backdrop.jpg';
+import goldOrangeTablescape from '../assets/gallery/gold-orange-tablescape.jpg';
+import floralTableStyling from '../assets/gallery/floral-table-styling.jpg';
+
+// Five of these eight categories now have a real photo (colour-corrected
+// from client event photos, stripped of location metadata). The other
+// three — Weddings, Baby Showers, Hire Collection — keep the line-art
+// placeholder until a real photo exists for them; never a stand-in shot
+// pretending to be that category.
 const categories = [
-  { name: 'Weddings', caption: 'Ceremony & reception styling', tone: 'primary' },
-  { name: 'Birthdays', caption: 'Themed setups for every milestone', tone: 'gold' },
-  { name: 'Baby Showers', caption: 'Soft, celebratory styling', tone: 'rose' },
-  { name: 'Balloons', caption: 'Arches, garlands & installations', tone: 'gold' },
-  { name: 'Backdrops', caption: 'Statement backdrops for any theme', tone: 'primary' },
-  { name: 'Tablescapes', caption: 'Beautifully styled table settings', tone: 'rose' },
-  { name: 'Floral Styling', caption: 'Fresh & artificial floral design', tone: 'gold' },
-  { name: 'Hire Collection', caption: 'Browse pieces available to hire', tone: 'primary', href: '/hire/' },
+  { name: 'Weddings', caption: 'Ceremony & reception styling', tone: 'primary' as const },
+  {
+    name: 'Birthdays',
+    caption: 'Themed setups for every milestone',
+    tone: 'gold' as const,
+    image: seventiethBirthday,
+    alt: 'Navy and gold balloon backdrop with a birthday cake on a plinth, styled for a 70th birthday celebration',
+  },
+  { name: 'Baby Showers', caption: 'Soft, celebratory styling', tone: 'rose' as const },
+  {
+    name: 'Balloons',
+    caption: 'Arches, garlands & installations',
+    tone: 'gold' as const,
+    image: bumblebeeArch,
+    alt: 'Yellow, black and white bumblebee-themed balloon arch backdrop for a birthday party',
+  },
+  {
+    name: 'Backdrops',
+    caption: 'Statement backdrops for any theme',
+    tone: 'primary' as const,
+    image: graduationBackdrop,
+    alt: 'Gold and cream balloon arch backdrop with "Congratulations" signage for a graduation celebration',
+  },
+  {
+    name: 'Tablescapes',
+    caption: 'Beautifully styled table settings',
+    tone: 'rose' as const,
+    image: goldOrangeTablescape,
+    alt: 'Round table styled with an orange and gold tablescape, floral centrepiece and place settings',
+  },
+  {
+    name: 'Floral Styling',
+    caption: 'Fresh & artificial floral design',
+    tone: 'gold' as const,
+    image: floralTableStyling,
+    alt: 'Vibrant pink, orange and yellow floral table arrangements styled for a celebration',
+  },
+  { name: 'Hire Collection', caption: 'Browse pieces available to hire', tone: 'primary' as const, href: '/hire/' },
 ];
 
 const title = `Gallery | ${business.name}`;
-const description = `Event decoration categories from Riverstone Event, styled across ${business.locations.join(', ')}.`;
+const description = `Real event decoration styled by Riverstone Event, across ${business.locations.join(', ')}.`;
 ---
 
 <BaseLayout
@@ -48,34 +82,48 @@ const description = `Event decoration categories from Riverstone Event, styled a
         <p class="eyebrow">Our Portfolio</p>
         <h1>A Showcase of Elegance</h1>
         <p>
-          Real event photography isn't live yet, so this page shows the
-          categories our gallery will be organised into — follow along on
-          {' '}<a href={business.instagram} target="_blank" rel="noopener">Instagram</a>{' '}
-          for real setups in the meantime.
+          A first look at real Riverstone Event setups, organised by
+          category — more photography is on its way, so a few categories
+          are still placeholders. Follow along on{' '}
+          <a href={business.instagram} target="_blank" rel="noopener">Instagram</a>{' '}
+          for the latest in the meantime.
         </p>
       </div>
 
       <div class="gallery-grid">
         {categories.map((tile) => (
           <figure class={`gallery-tile gallery-tile--${tile.tone} reveal`}>
-            <span class="gallery-tile__badge">Coming Soon</span>
-            {tile.href ? (
-              <a href={tile.href} class="gallery-tile__link">
-                <svg viewBox="0 0 40 40" class="gallery-tile__mark" aria-hidden="true">
-                  <circle cx="20" cy="20" r="18" />
-                  <path d="M20 10c2.2 2.6 3.4 5 3.4 7.4 0 2.4-1.5 4-3.4 4s-3.4-1.6-3.4-4c0-2.4 1.2-4.8 3.4-7.4Z" />
-                </svg>
-                <figcaption>{tile.name}</figcaption>
-                <span class="gallery-tile__caption">{tile.caption}</span>
-              </a>
+            {tile.image ? (
+              <>
+                <Image src={tile.image} alt={tile.alt ?? ''} width={480} height={600} />
+                <div class="gallery-tile__scrim" aria-hidden="true"></div>
+                <figcaption class="gallery-tile__overlay">
+                  <span class="gallery-tile__name">{tile.name}</span>
+                  <span class="gallery-tile__caption gallery-tile__caption--photo">{tile.caption}</span>
+                </figcaption>
+              </>
             ) : (
               <>
-                <svg viewBox="0 0 40 40" class="gallery-tile__mark" aria-hidden="true">
-                  <circle cx="20" cy="20" r="18" />
-                  <path d="M20 10c2.2 2.6 3.4 5 3.4 7.4 0 2.4-1.5 4-3.4 4s-3.4-1.6-3.4-4c0-2.4 1.2-4.8 3.4-7.4Z" />
-                </svg>
-                <figcaption>{tile.name}</figcaption>
-                <span class="gallery-tile__caption">{tile.caption}</span>
+                <span class="gallery-tile__badge">Coming Soon</span>
+                {tile.href ? (
+                  <a href={tile.href} class="gallery-tile__link">
+                    <svg viewBox="0 0 40 40" class="gallery-tile__mark" aria-hidden="true">
+                      <circle cx="20" cy="20" r="18" />
+                      <path d="M20 10c2.2 2.6 3.4 5 3.4 7.4 0 2.4-1.5 4-3.4 4s-3.4-1.6-3.4-4c0-2.4 1.2-4.8 3.4-7.4Z" />
+                    </svg>
+                    <span class="gallery-tile__name">{tile.name}</span>
+                    <span class="gallery-tile__caption">{tile.caption}</span>
+                  </a>
+                ) : (
+                  <>
+                    <svg viewBox="0 0 40 40" class="gallery-tile__mark" aria-hidden="true">
+                      <circle cx="20" cy="20" r="18" />
+                      <path d="M20 10c2.2 2.6 3.4 5 3.4 7.4 0 2.4-1.5 4-3.4 4s-3.4-1.6-3.4-4c0-2.4 1.2-4.8 3.4-7.4Z" />
+                    </svg>
+                    <span class="gallery-tile__name">{tile.name}</span>
+                    <span class="gallery-tile__caption">{tile.caption}</span>
+                  </>
+                )}
               </>
             )}
           </figure>
@@ -112,6 +160,7 @@ const description = `Event decoration categories from Riverstone Event, styled a
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-soft);
     transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    overflow: hidden;
   }
 
   .gallery-tile:hover {
@@ -129,6 +178,53 @@ const description = `Event decoration categories from Riverstone Event, styled a
 
   .gallery-tile--primary {
     background: linear-gradient(160deg, var(--color-primary-dark), var(--color-surface) 70%);
+  }
+
+  /* Real-photo tiles: full-bleed image, no padding, caption overlaid */
+  .gallery-tile:has(img) {
+    padding: 0;
+  }
+
+  .gallery-tile img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .gallery-tile:hover img {
+    transform: scale(1.05);
+  }
+
+  .gallery-tile__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(36, 27, 22, 0.75), transparent 55%);
+  }
+
+  .gallery-tile__overlay {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    align-self: flex-end;
+    padding: 1.25rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  .gallery-tile__overlay .gallery-tile__name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: #fff;
+  }
+
+  .gallery-tile__caption--photo {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.8rem;
   }
 
   .gallery-tile__badge {
@@ -163,13 +259,15 @@ const description = `Event decoration categories from Riverstone Event, styled a
     opacity: 0.8;
   }
 
-  .gallery-tile figcaption {
+  .gallery-tile__name {
+    display: block;
     font-family: var(--font-display);
     font-size: 1.05rem;
     color: var(--color-ink);
   }
 
   .gallery-tile__caption {
+    display: block;
     font-size: 0.82rem;
     color: var(--color-muted);
   }
