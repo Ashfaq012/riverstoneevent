@@ -1,0 +1,43 @@
+---
+import { eventTypes } from '../data/eventTypes';
+---
+
+<section class="section events-we-style">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="eyebrow">Occasions We Cater For</p>
+      <h2>Events We Style</h2>
+      <p>
+        Whatever you're celebrating, there's a good chance we've styled
+        something like it before — and if not, we'd love to hear about it.
+      </p>
+    </div>
+
+    <div class="grid grid--4 events-grid">
+      {eventTypes.map((event) => (
+        <div class="card events-grid__card reveal">
+          <h3>{event.label}</h3>
+          <p>{event.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .events-grid__card {
+    padding: 1.5rem 1.5rem;
+    text-align: center;
+  }
+
+  .events-grid__card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .events-grid__card p {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+</style>

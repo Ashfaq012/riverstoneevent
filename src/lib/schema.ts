@@ -38,7 +38,22 @@ export function localBusinessSchema() {
       '@type': 'City',
       name,
     })),
-    sameAs: [business.instagram],
+    sameAs: [business.instagram, business.tiktok],
+  };
+}
+
+export function faqSchema(items: readonly { question: string; answer: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
   };
 }
 

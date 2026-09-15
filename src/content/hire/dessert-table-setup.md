@@ -1,6 +1,6 @@
 ---
 title: Dessert Table Setup
-eyebrow: Hire Collection
+eyebrow: Tablescape Hire
 summary: A full dessert table styling package, ready to book.
 order: 3
 items:

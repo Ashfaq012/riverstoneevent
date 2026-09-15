@@ -6,42 +6,47 @@ import Ornament from '../components/Ornament.astro';
 import { business } from '../data/business';
 import { breadcrumbSchema } from '../lib/schema';
 
+// Every claim here is either a statement of approach ("we do X") or a
+// verifiable fact (address, service area) — not an unverifiable metric
+// (client rating, years of experience, "finest materials") or a superlative
+// ("the best venues"). See README's Content Integrity note if this file
+// gets edited later.
 const whyUs = [
   {
-    title: 'Premium Quality',
-    body: 'We use only the finest materials and fresh florals to create stunning decorations that exceed expectations.',
+    title: 'Personalised Designs',
+    body: 'Every project starts with your event, your venue and your preferences — not a fixed template applied to everyone.',
   },
   {
-    title: 'Bespoke Designs',
-    body: 'Every event is unique. We create custom designs tailored to your vision, theme, and personal style preferences.',
+    title: 'Attention to Detail',
+    body: 'From colour matching to finishing touches, we work through the details that make a setup feel complete.',
   },
   {
     title: 'On-Time Setup',
-    body: 'We pride ourselves on punctuality and professionalism, ensuring everything is perfect before your guests arrive.',
+    body: "We aim to have everything in place well before your guests arrive.",
   },
   {
-    title: 'Local Experts',
-    body: `Based in London, we know the best venues and serve ${business.locations.join(', ')}.`,
+    title: 'Based in Watford',
+    body: `We're based in Watford and serve ${business.locations.join(', ')}.`,
   },
 ];
 
 const values = [
   {
     title: 'Passion',
-    body: 'Every project is infused with our love for creating beautiful spaces that evoke emotion and wonder for our clients in London and Hertfordshire.',
+    body: 'Event styling is something we genuinely enjoy — every project is an opportunity to create a space that reflects the occasion.',
   },
   {
-    title: 'Excellence',
-    body: 'We strive for perfection in every detail, using premium materials and refined techniques to exceed expectations.',
+    title: 'Care',
+    body: 'We take the time to understand what you want before we plan anything, so the result feels like yours.',
   },
   {
-    title: 'Trust',
-    body: 'Building lasting relationships with our clients through reliability, transparency, and exceptional service delivery.',
+    title: 'Flexibility',
+    body: "Full event decoration or individual pieces to hire — we work however suits your event and your plans.",
   },
 ];
 
 const title = `About Us | ${business.name}`;
-const description = `Meet ${business.name}, a luxury event decoration studio serving ${business.locations.join(', ')}.`;
+const description = `About ${business.name} — event decoration, styling and decorative item hire serving ${business.locations.join(', ')}.`;
 ---
 
 <BaseLayout
@@ -64,28 +69,17 @@ const description = `Meet ${business.name}, a luxury event decoration studio ser
       <p class="eyebrow eyebrow--start">About Riverstone Event</p>
       <h1>Crafting <span class="accent-word">Elegance</span> for Every Celebration</h1>
       <p>
-        At {business.name}, we believe every celebration deserves to be
-        extraordinary. Founded with a passion for design and meticulous
-        attention to detail, we have been transforming spaces into
-        breathtaking venues across London and Hertfordshire.
+        At {business.name}, we believe every celebration deserves thoughtful
+        styling. We design and set up event decoration built around your
+        vision, and we also hire out individual decorative pieces for
+        anyone putting together their own setup — two ways of working with
+        us, both built around what you actually need.
       </p>
       <p>
-        Our team of creative decorators combines artistry with precision to
-        deliver bespoke event experiences that leave lasting impressions.
         Serving {business.locations.join(', ')}, from intimate gatherings to
-        grand celebrations, we pour our hearts into every detail.
+        larger celebrations, we put care into understanding your event
+        before we plan a single detail.
       </p>
-      <!--
-        TODO: the original site animates "Events Decorated" / "Years
-        Experience" counters — plug in the real figures here once confirmed
-        with the client, rather than guessing at numbers.
-      -->
-      <div class="stat-row">
-        <div>
-          <p class="stat-row__value">4.9</p>
-          <p class="stat-row__label">Client Rating</p>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -95,8 +89,8 @@ const description = `Meet ${business.name}, a luxury event decoration studio ser
         <p class="eyebrow">Why Choose Us</p>
         <h2>What Makes Riverstone Event Different</h2>
         <p>
-          We combine creativity, professionalism, and passion to deliver
-          unforgettable event experiences across London and Hertfordshire.
+          A personal, detail-led approach to styling — and the flexibility
+          to work however suits you.
         </p>
       </div>
       <div class="grid grid--4">
@@ -153,27 +147,6 @@ const description = `Meet ${business.name}, a luxury event decoration studio ser
 
   .about-intro {
     max-width: 760px;
-  }
-
-  .stat-row {
-    display: flex;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-
-  .stat-row__value {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    color: var(--color-primary-dark);
-    margin: 0;
-  }
-
-  .stat-row__label {
-    color: var(--color-muted);
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.78rem;
   }
 
   .card-rule {

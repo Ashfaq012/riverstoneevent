@@ -11,8 +11,8 @@ const hireItems = (await getCollection('hireItems')).sort(
   (a, b) => a.data.order - b.data.order
 );
 
-const title = `Event Decoration Hire | ${business.name}`;
-const description = `Hire luxury backdrops, plinths, dessert table setups and flower arches across ${business.locations.join(', ')}.`;
+const title = `Decorative Item Hire | ${business.name}`;
+const description = `Hire luxury backdrops, plinths, dessert table setups and flower arches across ${business.locations.join(', ')} — no full decoration booking required.`;
 ---
 
 <BaseLayout
@@ -33,20 +33,40 @@ const description = `Hire luxury backdrops, plinths, dessert table setups and fl
     <div class="container">
       <div class="section-header reveal">
         <p class="eyebrow">Hire Collection</p>
-        <h1>Event Decoration Hire</h1>
-        <p>{description}</p>
+        <h1>Decorative Item Hire</h1>
+        <p>
+          Not every event needs a full decoration package. Sometimes you
+          only need the right backdrop, plinth, arch or decorative piece
+          to complete a setup you're putting together yourself — and you
+          don't need to book full event decoration to hire from us.
+        </p>
       </div>
       <div class="grid grid--4">
         {hireItems.map((item) => (
           <HireCard
             href={`/hire/${item.id}/`}
             title={item.data.title}
+            eyebrow={item.data.eyebrow}
             items={item.data.items}
           />
         ))}
       </div>
+      <p class="section-cta">
+        <a class="btn btn--outline" href="/services/">Looking for full decoration instead?</a>
+      </p>
     </div>
   </section>
 
-  <CTASection title="Ready to Book Your Hire Items?" />
+  <CTASection
+    title="Looking for the Perfect Decorative Pieces?"
+    description="Tell us which pieces you'd like to hire, your event date and location, and we'll check availability."
+  />
 </BaseLayout>
+
+<style>
+  .section-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.75rem;
+  }
+</style>

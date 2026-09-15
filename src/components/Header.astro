@@ -20,7 +20,7 @@ const path = Astro.url.pathname;
         <span class="brand__tagline">{business.tagline}</span>
       </span>
     </a>
-    <nav aria-label="Primary">
+    <nav aria-label="Primary" class="nav-desktop">
       <ul>
         {mainNav.map((item) => (
           <li>
@@ -35,7 +35,44 @@ const path = Astro.url.pathname;
       </ul>
     </nav>
     <a class="btn btn--primary header-cta" href="/contact/">Enquire Now</a>
+
+    <!--
+      Below 860px the desktop nav (above) is hidden entirely — this button
+      and panel are the mobile replacement, not decoration. Pure CSS
+      couldn't toggle a panel driven by a button elsewhere in the DOM
+      without :has() support we don't want to require, so a few lines of
+      vanilla JS handle the open/close state.
+    -->
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="Open menu"
+    >
+      <svg viewBox="0 0 24 24" class="nav-toggle__icon nav-toggle__icon--open" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      </svg>
+      <svg viewBox="0 0 24 24" class="nav-toggle__icon nav-toggle__icon--close" aria-hidden="true">
+        <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      </svg>
+    </button>
   </div>
+
+  <nav id="mobile-nav" aria-label="Mobile" class="nav-mobile">
+    <ul>
+      {mainNav.map((item) => (
+        <li>
+          <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>
+            {item.label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a class="btn btn--primary nav-mobile__cta" href="/contact/">Enquire Now</a>
+      </li>
+    </ul>
+  </nav>
 </header>
 
 <style>
@@ -63,6 +100,7 @@ const path = Astro.url.pathname;
     gap: 0.65rem;
     text-decoration: none;
     color: var(--color-text);
+    min-width: 0;
   }
 
   .brand__mark {
@@ -75,6 +113,7 @@ const path = Astro.url.pathname;
     display: flex;
     flex-direction: column;
     line-height: 1.1;
+    min-width: 0;
   }
 
   .brand__name {
@@ -82,6 +121,7 @@ const path = Astro.url.pathname;
     font-weight: 700;
     font-size: 1.3rem;
     color: var(--color-ink);
+    white-space: nowrap;
   }
 
   .brand__tagline {
@@ -89,9 +129,10 @@ const path = Astro.url.pathname;
     font-style: italic;
     font-size: 0.85rem;
     color: var(--color-primary-dark);
+    white-space: nowrap;
   }
 
-  nav ul {
+  .nav-desktop ul {
     list-style: none;
     display: flex;
     gap: 1.85rem;
@@ -99,7 +140,7 @@ const path = Astro.url.pathname;
     padding: 0;
   }
 
-  nav a {
+  .nav-desktop a {
     text-decoration: none;
     font-weight: 500;
     font-size: 0.92rem;
@@ -108,7 +149,7 @@ const path = Astro.url.pathname;
     padding-bottom: 4px;
   }
 
-  nav a::after {
+  .nav-desktop a::after {
     content: '';
     position: absolute;
     left: 0;
@@ -119,15 +160,15 @@ const path = Astro.url.pathname;
     transition: right 0.3s var(--ease);
   }
 
-  nav a:hover::after {
+  .nav-desktop a:hover::after {
     right: 0;
   }
 
-  nav a[aria-current='page'] {
+  .nav-desktop a[aria-current='page'] {
     color: var(--color-primary-dark);
   }
 
-  nav a[aria-current='page']::after {
+  .nav-desktop a[aria-current='page']::after {
     right: 0;
   }
 
@@ -136,9 +177,130 @@ const path = Astro.url.pathname;
     padding: 0.7rem 1.5rem;
   }
 
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-ink);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .nav-toggle__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-toggle__icon--close {
+    display: none;
+  }
+
+  .nav-toggle[aria-expanded='true'] .nav-toggle__icon--open {
+    display: none;
+  }
+
+  .nav-toggle[aria-expanded='true'] .nav-toggle__icon--close {
+    display: block;
+  }
+
+  .nav-mobile {
+    display: none;
+  }
+
   @media (max-width: 860px) {
-    nav {
+    .nav-desktop {
       display: none;
+    }
+
+    .header-cta {
+      display: none;
+    }
+
+    .nav-toggle {
+      display: flex;
+    }
+
+    .nav-mobile {
+      display: block;
+      max-height: 0;
+      overflow: hidden;
+      border-top: 0 solid var(--color-border);
+      background: var(--color-surface);
+      transition: max-height 0.3s var(--ease);
+    }
+
+    .nav-mobile.is-open {
+      max-height: 420px;
+      border-top-width: 1px;
+    }
+
+    .nav-mobile ul {
+      list-style: none;
+      margin: 0;
+      padding: 1rem 1.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .nav-mobile a {
+      display: block;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--color-text);
+      padding: 0.6rem 0;
+    }
+
+    .nav-mobile a[aria-current='page'] {
+      color: var(--color-primary-dark);
+    }
+
+    .nav-mobile__cta {
+      margin-top: 0.5rem;
+      text-align: center;
+      justify-content: center;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .brand__tagline {
+      display: none;
+    }
+
+    .brand__name {
+      font-size: 1.05rem;
+    }
+
+    .brand__mark {
+      width: 34px;
     }
   }
 </style>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle');
+  const panel = document.getElementById('mobile-nav');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+    panel?.classList.toggle('is-open', !isOpen);
+  });
+
+  // Close the panel after tapping a link, so navigating doesn't leave it
+  // open underneath the next page's header.
+  panel?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      toggle?.setAttribute('aria-expanded', 'false');
+      panel.classList.remove('is-open');
+    });
+  });
+</script>

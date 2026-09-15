@@ -7,6 +7,8 @@ features:
   - Living Room & Garden Styling
   - Compact Backdrop Setups
   - Table & Seating Decor
+  - Balloon & Floral Accents
+  - Designed Around Your Space
 seoTitle: Home Party Decoration | Riverstone Event
 seoDescription: >-
   Intimate at-home celebration styling for birthdays, anniversaries and
@@ -14,4 +16,6 @@ seoDescription: >-
 ---
 
 Intimate home celebration styling that turns your own living room, garden
-or dining area into a beautifully decorated event space.
+or dining area into a beautifully decorated event space — a good fit for
+smaller gatherings where you'd rather celebrate at home than book a venue.
+We work around the space you already have rather than a fixed layout.

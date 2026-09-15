@@ -3,8 +3,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { business, whatsappLink } from '../data/business';
 import { breadcrumbSchema } from '../lib/schema';
+import { eventTypes } from '../data/eventTypes';
 import WhatsAppIcon from '../components/icons/WhatsAppIcon.astro';
 import InstagramIcon from '../components/icons/InstagramIcon.astro';
+
+// Kept in sync with the ENQUIRY_TYPES allow-list in api/contact.ts.
+const enquiryTypes = [
+  'Event Decoration',
+  'Decorative Item Hire',
+  'Both',
+  'General Enquiry',
+];
 
 const title = `Contact Us | ${business.name}`;
 const description = `Get in touch with ${business.name} to plan your event across ${business.locations.join(', ')}.`;
@@ -102,21 +111,50 @@ const description = `Get in touch with ${business.name} to plan your event acros
               autocomplete="off"
             />
           </div>
+          <div class="contact-form-card__row">
+            <label>
+              Name
+              <input type="text" name="name" required maxlength="100" />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" required maxlength="200" />
+            </label>
+          </div>
           <label>
-            Name
-            <input type="text" name="name" required maxlength="100" />
+            Phone / WhatsApp <span class="contact-form-card__optional">(optional)</span>
+            <input type="tel" name="phone" maxlength="30" autocomplete="tel" />
           </label>
           <label>
-            Email
-            <input type="email" name="email" required maxlength="200" />
+            Enquiry type
+            <select name="enquiry-type" required>
+              <option value="" disabled selected>Select an option</option>
+              {enquiryTypes.map((type) => <option value={type}>{type}</option>)}
+            </select>
           </label>
+          <div class="contact-form-card__row">
+            <label>
+              Event type <span class="contact-form-card__optional">(optional)</span>
+              <select name="event-type">
+                <option value="">Not sure yet</option>
+                {eventTypes.map((event) => (
+                  <option value={event.label}>{event.label}</option>
+                ))}
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <label>
+              Event date <span class="contact-form-card__optional">(optional)</span>
+              <input type="date" name="event-date" />
+            </label>
+          </div>
           <label>
-            Event date
-            <input type="date" name="event-date" />
+            Venue / location <span class="contact-form-card__optional">(optional)</span>
+            <input type="text" name="venue" maxlength="150" placeholder="e.g. your home, a hall, or the venue name" />
           </label>
           <label>
             Message
-            <textarea name="message" rows="4" required maxlength="3000"></textarea>
+            <textarea name="message" rows="4" required maxlength="3000" placeholder="Tell us about your event and what you have in mind..."></textarea>
           </label>
           <button class="btn btn--primary" type="submit">Send Enquiry</button>
         </form>
@@ -170,19 +208,34 @@ const description = `Get in touch with ${business.name} to plan your event acros
     gap: 0.4rem;
     font-weight: 500;
     font-size: 0.9rem;
+    flex: 1;
+  }
+
+  .contact-form-card__row {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .contact-form-card__optional {
+    font-weight: 400;
+    color: var(--color-muted);
+    font-size: 0.82rem;
   }
 
   .contact-form-card input,
+  .contact-form-card select,
   .contact-form-card textarea {
     font: inherit;
     padding: 0.7rem 0.9rem;
     border-radius: var(--radius-sm);
     border: 1px solid var(--color-border);
     background: var(--color-bg);
+    color: var(--color-text);
     transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
   }
 
   .contact-form-card input:focus,
+  .contact-form-card select:focus,
   .contact-form-card textarea:focus {
     outline: none;
     border-color: var(--color-gold);
@@ -192,6 +245,12 @@ const description = `Get in touch with ${business.name} to plan your event acros
   @media (max-width: 780px) {
     .contact-grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .contact-form-card__row {
+      flex-direction: column;
     }
   }
 

@@ -1,6 +1,6 @@
 ---
 title: Luxury Backdrops
-eyebrow: Hire Collection
+eyebrow: Backdrop Hire
 summary: Statement backdrops in a range of sizes, colours and styles.
 order: 1
 items:

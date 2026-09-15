@@ -1,0 +1,130 @@
+---
+// The single most important thing a first-time visitor needs to understand:
+// Riverstone offers two independent services — full event decoration, and
+// standalone decorative item hire. Neither is a subset of the other, so
+// this sits right after the hero, before anything else.
+interface Path {
+  eyebrow: string;
+  title: string;
+  body: string;
+  cta: string;
+  href: string;
+  variant: 'decoration' | 'hire';
+}
+
+const paths: Path[] = [
+  {
+    eyebrow: '01 — Full Service',
+    title: 'Event Decoration & Styling',
+    body: 'From intimate celebrations to beautifully styled larger occasions, we design and set up the whole look of your event — backdrops, table styling, balloons and florals — built around your date, venue and theme.',
+    cta: 'Explore Our Services',
+    href: '/services/',
+    variant: 'decoration',
+  },
+  {
+    eyebrow: '02 — Do It Yourself',
+    title: 'Decorative Item Hire',
+    body: "Need only a few finishing touches? Hire individual decorative pieces — a backdrop, a plinth, a flower arch — and create your own event setup on your own terms.",
+    cta: 'Explore Hire Collection',
+    href: '/hire/',
+    variant: 'hire',
+  },
+];
+---
+
+<section class="section section--muted what-we-do">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="eyebrow">How We Can Help</p>
+      <h2>Two Ways to Work With Riverstone</h2>
+      <p>
+        Book us to style your whole event, or hire the individual pieces
+        you need to complete a setup of your own — whichever fits how
+        you're planning.
+      </p>
+    </div>
+
+    <div class="grid grid--2">
+      {paths.map((path) => (
+        <a
+          class={`card what-we-do__card what-we-do__card--${path.variant} reveal`}
+          href={path.href}
+        >
+          <span class="what-we-do__rule" aria-hidden="true"></span>
+          <p class="eyebrow eyebrow--start">{path.eyebrow}</p>
+          <h3>{path.title}</h3>
+          <p>{path.body}</p>
+          <span class="what-we-do__link">
+            {path.cta}
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path
+                d="M2 8h11M9 4l4 4-4 4"
+                stroke="currentColor"
+                stroke-width="1.4"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .what-we-do__card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem 2rem;
+  }
+
+  .what-we-do__rule {
+    display: block;
+    width: 40px;
+    height: 3px;
+    border-radius: 2px;
+    margin-bottom: 1.25rem;
+    transition: width 0.35s var(--ease);
+  }
+
+  .what-we-do__card--decoration .what-we-do__rule {
+    background: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary));
+  }
+
+  .what-we-do__card--hire .what-we-do__rule {
+    background: linear-gradient(90deg, var(--color-primary), var(--color-bg-alt));
+  }
+
+  .what-we-do__card:hover .what-we-do__rule {
+    width: 64px;
+  }
+
+  .what-we-do__card p {
+    color: var(--color-muted);
+    flex-grow: 1;
+  }
+
+  .what-we-do__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .what-we-do__link svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.3s var(--ease);
+  }
+
+  .what-we-do__card:hover .what-we-do__link svg {
+    transform: translateX(4px);
+  }
+</style>

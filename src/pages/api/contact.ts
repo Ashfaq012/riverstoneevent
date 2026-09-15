@@ -16,6 +16,17 @@ export const prerender = false;
 // (dashboard, no code) or a CAPTCHA (e.g. Turnstile) on top of this.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Must match the <select> options in contact.astro. Anything else
+// submitted (a tampered request, not a real browser submission) is
+// dropped into "General Enquiry" rather than rejected outright — no need
+// to bounce a genuine enquiry over a mismatched value.
+const ENQUIRY_TYPES = [
+  'Event Decoration',
+  'Decorative Item Hire',
+  'Both',
+  'General Enquiry',
+];
+
 function clamp(value: string, max: number) {
   return value.length > max ? value.slice(0, max) : value;
 }
@@ -36,14 +47,25 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     100
   );
   const email = clamp(formData.get('email')?.toString().trim() ?? '', 200);
+  const phone = clamp(formData.get('phone')?.toString().trim() ?? '', 30);
+  const eventType = clamp(
+    formData.get('event-type')?.toString().trim() ?? '',
+    100
+  );
   const eventDate = clamp(
     formData.get('event-date')?.toString().trim() ?? '',
     20
   );
+  const venue = clamp(formData.get('venue')?.toString().trim() ?? '', 150);
   const message = clamp(
     formData.get('message')?.toString().trim() ?? '',
     3000
   );
+
+  const enquiryTypeRaw = formData.get('enquiry-type')?.toString().trim() ?? '';
+  const enquiryType = ENQUIRY_TYPES.includes(enquiryTypeRaw)
+    ? enquiryTypeRaw
+    : 'General Enquiry';
 
   if (!name || !email || !message || !EMAIL_RE.test(email)) {
     return redirect('/contact/?status=error');
@@ -68,11 +90,15 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     from: `${business.name} Website <onboarding@resend.dev>`,
     to,
     replyTo: email,
-    subject: `New enquiry from ${name}`,
+    subject: `New ${enquiryType.toLowerCase()} enquiry from ${name}`,
     text: [
+      `Enquiry type: ${enquiryType}`,
       `Name: ${name}`,
       `Email: ${email}`,
+      phone ? `Phone / WhatsApp: ${phone}` : undefined,
+      eventType ? `Event type: ${eventType}` : undefined,
       eventDate ? `Event date: ${eventDate}` : undefined,
+      venue ? `Venue / location: ${venue}` : undefined,
       '',
       message,
     ]

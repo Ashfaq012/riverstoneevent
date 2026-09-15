@@ -1,0 +1,138 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'Tell Us About Your Event',
+    body: 'Share your event date, location, occasion and what you have in mind.',
+  },
+  {
+    number: '02',
+    title: 'Discuss Your Ideas',
+    body: "We'll talk through your preferred style, theme, colours and requirements.",
+  },
+  {
+    number: '03',
+    title: 'Plan Your Setup',
+    body: "We'll work through the decoration or hire details with you.",
+  },
+  {
+    number: '04',
+    title: 'Bring Your Vision to Life',
+    body: 'Your event comes together with the agreed decorative setup.',
+  },
+];
+
+const hireSteps = ['Choose', 'Check Availability', 'Confirm', 'Hire'];
+---
+
+<section class="section section--tint how-it-works">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="eyebrow">The Process</p>
+      <h2>How It Works</h2>
+      <p>A simple path from first message to finished setup.</p>
+    </div>
+
+    <div class="grid grid--4 steps-grid">
+      {steps.map((step) => (
+        <div class="card steps-grid__card reveal">
+          <span class="steps-grid__number" aria-hidden="true">{step.number}</span>
+          <h3>{step.title}</h3>
+          <p>{step.body}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="hire-process reveal">
+      <p class="hire-process__label">Hiring items instead? It's even simpler:</p>
+      <ol class="hire-process__steps">
+        {hireSteps.map((step, i) => (
+          <li>
+            <span>{step}</span>
+            {i < hireSteps.length - 1 && (
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path
+                  d="M2 8h11M9 4l4 4-4 4"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .steps-grid__card {
+    text-align: center;
+  }
+
+  .steps-grid__number {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .steps-grid__card h3 {
+    font-size: 1.1rem;
+  }
+
+  .steps-grid__card p {
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    margin: 0;
+  }
+
+  .hire-process {
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  .hire-process__label {
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    margin-bottom: 1rem;
+  }
+
+  .hire-process__steps {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .hire-process__steps li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .hire-process__steps span {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 0.5rem 1.1rem;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--color-primary-dark);
+  }
+
+  .hire-process__steps svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+</style>

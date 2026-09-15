@@ -8,6 +8,8 @@ features:
   - Organic Balloon Clusters
   - Number & Letter Balloon Displays
   - Colour-matched Palettes
+  - Entrance & Photo-spot Installations
+  - Standalone or Paired with Full Decoration
 seoTitle: Balloon Decor & Arches | Riverstone Event
 seoDescription: >-
   Custom balloon arches, garlands and installations for birthdays, baby
@@ -15,4 +17,5 @@ seoDescription: >-
 ---
 
 Creative balloon arrangements and arches, colour-matched to your theme —
-from statement entrance arches to full-room installations.
+from statement entrance arches to full-room installations. Works well as
+a standalone feature or as part of a wider decoration setup.

@@ -1,6 +1,6 @@
 ---
 title: Flower Arches
-eyebrow: Hire Collection
+eyebrow: Arch Hire
 summary: Round and square floral arches for ceremonies and photo moments.
 order: 4
 items:

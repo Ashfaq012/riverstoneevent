@@ -5,7 +5,13 @@ import ServiceCard from '../components/ServiceCard.astro';
 import HireCard from '../components/HireCard.astro';
 import CTASection from '../components/CTASection.astro';
 import Ornament from '../components/Ornament.astro';
+import WhatWeDo from '../components/WhatWeDo.astro';
+import EventsWeStyle from '../components/EventsWeStyle.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import Faq from '../components/Faq.astro';
 import { business } from '../data/business';
+import { faqs } from '../data/faq';
+import { faqSchema } from '../lib/schema';
 
 const services = (await getCollection('services')).sort(
   (a, b) => a.data.order - b.data.order
@@ -16,16 +22,16 @@ const hireItems = (await getCollection('hireItems')).sort(
 
 const whyUs = [
   {
-    title: 'Premium Quality',
-    body: 'We use only the finest materials and fresh florals to create stunning decorations that exceed expectations.',
+    title: 'Thoughtful Design',
+    body: 'Every setup starts with your vision, your venue and your event — not a fixed template we reuse for everyone.',
   },
   {
-    title: 'Custom Designs',
-    body: 'Every event is unique. We craft personalised themes and concepts tailored to your vision and style.',
+    title: 'Attention to Detail',
+    body: "From colour matching to finishing touches, the small details are what make a setup feel considered rather than assembled.",
   },
   {
-    title: 'On-Time Setup',
-    body: 'We pride ourselves on punctuality and professionalism, ensuring everything is perfect before your guests arrive.',
+    title: 'Decoration or Hire — Your Choice',
+    body: "Book us to style the whole event, or hire the individual pieces you need and put your own setup together.",
   },
 ];
 ---
@@ -33,24 +39,27 @@ const whyUs = [
 <BaseLayout
   title={`${business.name} – ${business.tagline}`}
   description={business.description}
+  schema={[faqSchema(faqs)]}
 >
   <section class="section hero">
     <span class="blob hero__blob hero__blob--gold" aria-hidden="true"></span>
     <span class="blob hero__blob hero__blob--rose" aria-hidden="true"></span>
     <div class="container hero__inner">
       <div class="hero__copy">
-        <p class="eyebrow eyebrow--start">Premium Event Decoration</p>
+        <p class="eyebrow eyebrow--start">Event Decoration &amp; Hire</p>
         <h1>
-          Transform Your Special Moments Into{' '}
-          <span class="accent-word">Unforgettable</span> Memories
+          Beautifully Styled Celebrations,{' '}
+          <span class="accent-word">Thoughtfully</span> Designed Around You
         </h1>
         <p class="hero__subtitle">
-          Luxury event decoration services for weddings, birthdays, proposals,
-          and more. Serving {business.locations.join(', ')}.
+          Full event decoration and styling, or individual decorative
+          pieces to hire and set up yourself — whichever suits how you're
+          planning. Serving {business.locations.join(', ')}.
         </p>
         <div class="hero__actions">
-          <a class="btn btn--primary" href="/gallery/">View Gallery</a>
-          <a class="btn btn--outline" href="/contact/">Enquire Now</a>
+          <a class="btn btn--primary" href="/contact/">Plan Your Event</a>
+          <a class="btn btn--outline" href="/hire/">Explore Hire</a>
+          <a class="btn btn--ghost" href="/gallery/">View Our Work</a>
         </div>
         <ul class="hero__locations" aria-label="Areas served">
           {business.locations.map((location) => <li>{location}</li>)}
@@ -67,14 +76,18 @@ const whyUs = [
     </div>
   </section>
 
+  <WhatWeDo />
+
+  <EventsWeStyle />
+
   <section class="section section--muted">
     <div class="container">
       <div class="section-header reveal">
         <p class="eyebrow">What We Offer</p>
         <h2>Our Premium Services</h2>
         <p>
-          From intimate gatherings to grand celebrations, we craft bespoke
-          decorations that reflect your unique vision and style.
+          From intimate gatherings to grand celebrations, we design and
+          set up bespoke event decoration tailored to your vision.
         </p>
       </div>
       <div class="grid grid--4">
@@ -94,14 +107,17 @@ const whyUs = [
 
   <Ornament />
 
+  <HowItWorks />
+
   <section class="section">
     <div class="container">
       <div class="section-header reveal">
         <p class="eyebrow">Hire Collection</p>
-        <h2>Event Decoration Hire</h2>
+        <h2>Decorative Item Hire</h2>
         <p>
-          Transform your event with our stunning collection of premium
-          decorations available for hire across London & Hertfordshire.
+          Not every event needs a full decoration package. Sometimes you
+          only need the right backdrop, plinth, arch or decorative piece
+          to complete a setup you're putting together yourself.
         </p>
       </div>
       <div class="grid grid--4">
@@ -109,13 +125,14 @@ const whyUs = [
           <HireCard
             href={`/hire/${item.id}/`}
             title={item.data.title}
+            eyebrow={item.data.eyebrow}
             items={item.data.items}
           />
         ))}
       </div>
       <p class="section-cta">
-        <a class="btn btn--primary" href="/contact/">Enquire Now</a>
-        <a class="btn btn--outline" href="/hire/">View All Hire Items</a>
+        <a class="btn btn--primary" href="/hire/">Browse Hire Collection</a>
+        <a class="btn btn--outline" href="/contact/">Enquire About an Item</a>
       </p>
     </div>
   </section>
@@ -126,8 +143,8 @@ const whyUs = [
         <p class="eyebrow">Why Riverstone</p>
         <h2>Why Choose Us</h2>
         <p>
-          With years of experience and a passion for perfection, we bring
-          your celebrations to life.
+          A personal, detail-led approach to styling your celebration —
+          whichever way you choose to work with us.
         </p>
       </div>
       <div class="grid grid--3">
@@ -142,7 +159,12 @@ const whyUs = [
     </div>
   </section>
 
-  <CTASection title="Ready to Transform Your Special Day?" />
+  <Faq />
+
+  <CTASection
+    title="Planning Something Special?"
+    description="Tell us what you're celebrating and let's create a setup that feels uniquely yours."
+  />
 </BaseLayout>
 
 <style>
@@ -191,6 +213,7 @@ const whyUs = [
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    align-items: center;
     margin-top: 0.5rem;
   }
 

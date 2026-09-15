@@ -1,6 +1,6 @@
 ---
 title: Cake Plinths
-eyebrow: Hire Collection
+eyebrow: Plinth Hire
 summary: Tall and medium plinths to elevate your cake display.
 order: 2
 items:
