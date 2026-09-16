@@ -10,7 +10,7 @@ features:
   - Elegant Table Centrepieces
   - Photo Booth Setups
   - Fresh & Artificial Floral Walls
-seoTitle: Wedding Decoration in Watford & Hertfordshire | Riverstone Event
+seoTitle: Wedding Decoration in Watford | Riverstone Event
 seoDescription: >-
   Luxury wedding decoration across Watford, Wembley, Hemel Hempstead, Slough,
   Bushey, Luton and Harrow — mandap, stage, aisle and reception styling.

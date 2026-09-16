@@ -21,6 +21,11 @@ export function localBusinessSchema() {
       postalCode: business.address.postalCode,
       addressCountry: business.address.addressCountry,
     },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: business.address.geo.latitude,
+      longitude: business.address.geo.longitude,
+    },
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: [

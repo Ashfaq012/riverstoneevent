@@ -10,7 +10,7 @@ features:
   - Elegant Dessert Table Displays
   - Beautiful Gift Table Styling
   - Personalized Welcome Signs
-seoTitle: Baby Shower Decoration in Watford & London | Riverstone Event
+seoTitle: Baby Shower Decoration in Watford | Riverstone Event
 seoDescription: >-
   Pastel baby shower and gender reveal decoration with balloon installs and
   dessert table styling across Watford, Wembley and Hertfordshire.

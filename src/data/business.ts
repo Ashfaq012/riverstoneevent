@@ -27,6 +27,10 @@ export const business = {
     addressLocality: 'Watford',
     postalCode: 'WD25 0NL',
     addressCountry: 'GB',
+    // Postcode-centroid coordinates for WD25 0NL (not a rooftop geocode —
+    // same precision level as publishing the postcode itself). Feeds the
+    // LocalBusiness schema's geo field for local/Maps search.
+    geo: { latitude: 51.691109, longitude: -0.387171 },
   },
   hours: {
     days: 'Monday - Saturday',

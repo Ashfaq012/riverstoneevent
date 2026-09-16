@@ -10,7 +10,7 @@ features:
   - Custom Backdrop Designs
   - Age-appropriate Theme Customization
   - Party Props & Accessories
-seoTitle: Birthday Party Decoration in London & Hertfordshire | Riverstone Event
+seoTitle: Birthday Party Decoration in Watford | Riverstone Event
 seoDescription: >-
   Themed birthday decoration for kids' parties, 21sts and milestone
   celebrations across Watford, Wembley, Harrow and beyond.

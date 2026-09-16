@@ -5,7 +5,8 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO: swap for the real production domain before launch.
+  // Live production domain (connected to Vercel and verified) — feeds both
+  // the sitemap and every page's canonical/OG URLs.
   site: 'https://riverstoneevent.com',
   integrations: [
     sitemap({
@@ -16,9 +17,11 @@ export default defineConfig({
         !page.includes('/terms-and-conditions/'),
     }),
   ],
-  // Everything still prerenders to static HTML by default. The adapter only
-  // switches on for routes that opt out with `export const prerender = false`
-  // — currently just src/pages/api/contact.ts, which needs to run server-side
-  // to call Resend with a secret API key.
+  // The whole site is static HTML now — there's no server route left (the
+  // contact form hands off to WhatsApp client-side instead of POSTing
+  // anywhere; see README's "Contact form" section). The adapter is kept
+  // installed anyway since it costs nothing when there's nothing dynamic
+  // to bundle, and keeps the door open if a server route is ever needed
+  // again — remove it if you'd rather not carry the unused dependency.
   adapter: vercel(),
 });
