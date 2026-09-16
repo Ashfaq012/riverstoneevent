@@ -7,7 +7,7 @@ import { eventTypes } from '../data/eventTypes';
 import WhatsAppIcon from '../components/icons/WhatsAppIcon.astro';
 import InstagramIcon from '../components/icons/InstagramIcon.astro';
 
-// Kept in sync with the ENQUIRY_TYPES allow-list in api/contact.ts.
+// Kept in sync with the enquiry-type check in the submit script below.
 const enquiryTypes = [
   'Event Decoration',
   'Decorative Item Hire',
@@ -40,8 +40,8 @@ const description = `Get in touch with ${business.name} to plan your event acros
         <h1>Let's Create Magic Together</h1>
         <p>
           Ready to transform your special day? Fill in the form and we'll
-          get back to you, or reach out on WhatsApp or Instagram for the
-          fastest response.
+          open WhatsApp with your enquiry ready to send, or message us
+          directly on WhatsApp or Instagram for the fastest response.
         </p>
 
         <div class="contact-quick-actions">
@@ -80,26 +80,26 @@ const description = `Get in touch with ${business.name} to plan your event acros
 
       <div class="card contact-form-card reveal">
         <p id="form-success" class="form-banner form-banner--success" hidden>
-          Thanks — your enquiry is on its way. We'll be in touch shortly.
+          WhatsApp is opening in a new tab with your enquiry ready to go —
+          just hit send there to reach us.
         </p>
         <p id="form-error" class="form-banner form-banner--error" hidden>
-          Something went wrong sending that. Please try again, or message us
+          Couldn't open WhatsApp automatically. Please message us directly
           on WhatsApp or Instagram instead.
         </p>
 
         <!--
-          Posts to src/pages/api/contact.ts, the one server-rendered route
-          in the site — it calls Resend with a secret API key and redirects
-          back here with ?status=sent|error. This page itself stays static;
-          the script below just reads that query param to show a banner.
+          No backend here — submitting this form builds a wa.me link from
+          whatever was filled in and opens WhatsApp with the message
+          pre-written. The visitor still has to tap send themselves on
+          WhatsApp's side (there's no way to send on someone's behalf
+          without that), so this is a hand-off, not a silent submission.
         -->
-        <form id="contact-form" method="POST" action="/api/contact">
+        <form id="contact-form">
           <!--
             Honeypot: real visitors never see or fill this (hidden + pulled
-            out of tab order), so any submission with it filled in is
-            treated as a bot and silently dropped server-side in
-            src/pages/api/contact.ts — without letting the bot know it was
-            caught, so it doesn't just adapt.
+            out of tab order). The submit script below checks it and, if
+            filled, quietly does nothing instead of opening WhatsApp.
           -->
           <div class="visually-hidden" aria-hidden="true">
             <label for="company">Company</label>
@@ -156,7 +156,10 @@ const description = `Get in touch with ${business.name} to plan your event acros
             Message
             <textarea name="message" rows="4" required maxlength="3000" placeholder="Tell us about your event and what you have in mind..."></textarea>
           </label>
-          <button class="btn btn--primary" type="submit">Send Enquiry</button>
+          <button class="btn btn--primary" type="submit">
+            <WhatsAppIcon class="btn__icon" />
+            Send via WhatsApp
+          </button>
         </form>
       </div>
     </div>
@@ -271,28 +274,68 @@ const description = `Get in touch with ${business.name} to plan your event acros
   }
 </style>
 
-<script>
-  // Progressive-enhancement only: the form works with plain HTML POST +
-  // server redirect even with this script disabled. This just reads the
-  // ?status= the API route redirected back with and turns it into a
-  // banner, then tidies the URL so a refresh doesn't re-show it.
-  const params = new URLSearchParams(window.location.search);
-  const status = params.get('status');
+<script define:vars={{ whatsappLink }}>
+  // No server involved: build a WhatsApp message from the form fields and
+  // hand off to wa.me, which opens the visitor's own WhatsApp (app on
+  // mobile, WhatsApp Web/download prompt on desktop) with that message
+  // pre-filled. They still tap send there themselves.
+  const form = document.getElementById('contact-form');
+  const successBanner = document.getElementById('form-success');
+  const errorBanner = document.getElementById('form-error');
 
-  if (status === 'sent' || status === 'error') {
-    const banner = document.getElementById(
-      status === 'sent' ? 'form-success' : 'form-error'
-    );
-    banner?.removeAttribute('hidden');
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    successBanner?.setAttribute('hidden', '');
+    errorBanner?.setAttribute('hidden', '');
 
-    if (status === 'sent') {
-      document.getElementById('contact-form')?.setAttribute('hidden', '');
+    const data = new FormData(form);
+
+    // Honeypot: a real visitor never fills this. Do nothing rather than
+    // let a bot know it was caught.
+    if (data.get('company')?.toString().trim()) {
+      return;
     }
 
-    params.delete('status');
-    const cleanUrl =
-      window.location.pathname +
-      (params.toString() ? `?${params.toString()}` : '');
-    window.history.replaceState({}, '', cleanUrl);
-  }
+    const get = (name) => data.get(name)?.toString().trim() ?? '';
+    const name = get('name');
+    const email = get('email');
+    const message = get('message');
+
+    if (!name || !email || !message) {
+      errorBanner?.removeAttribute('hidden');
+      return;
+    }
+
+    const lines = [
+      `Hi Riverstone Event, I'd like to make an enquiry.`,
+      '',
+      `Enquiry type: ${get('enquiry-type') || 'General Enquiry'}`,
+      `Name: ${name}`,
+      `Email: ${email}`,
+    ];
+
+    const phone = get('phone');
+    if (phone) lines.push(`Phone: ${phone}`);
+
+    const eventType = get('event-type');
+    if (eventType) lines.push(`Event type: ${eventType}`);
+
+    const eventDate = get('event-date');
+    if (eventDate) lines.push(`Event date: ${eventDate}`);
+
+    const venue = get('venue');
+    if (venue) lines.push(`Venue/location: ${venue}`);
+
+    lines.push('', 'Message:', message);
+
+    const waUrl = `${whatsappLink}?text=${encodeURIComponent(lines.join('\n'))}`;
+    const opened = window.open(waUrl, '_blank', 'noopener');
+
+    if (opened) {
+      successBanner?.removeAttribute('hidden');
+    } else {
+      // Pop-up blocked — fall back to navigating this tab there directly.
+      window.location.href = waUrl;
+    }
+  });
 </script>

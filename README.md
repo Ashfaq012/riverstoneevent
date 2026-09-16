@@ -50,27 +50,34 @@ parent's scope id and falls back to the browser's oversized default SVG
 size. Icon sizing rules (`.btn__icon`, `.footer-contact__icon`,
 `.footer-social__icon`) live in `global.css` instead, which isn't scoped.
 
-## Contact form (Resend)
+## Contact form (WhatsApp hand-off, no backend)
 
-The site is static except for one route: `src/pages/api/contact.ts`, which
-opts out of prerendering (`export const prerender = false`) and runs as a
-Vercel serverless function. It receives the contact form's POST, sends the
-enquiry via [Resend](https://resend.com), and redirects back to `/contact/`
-with `?status=sent` or `?status=error` — a small inline script on that page
-turns that into a banner. Everything else in the site is still plain
-prerendered HTML.
+The site is fully static — there's no server route and no email provider.
+The contact form (`src/pages/contact.astro`) is plain HTML with a small
+inline `<script>`: on submit, it builds a message from whatever was filled
+in and opens `wa.me/<business phone>?text=...` in a new tab, which launches
+the visitor's own WhatsApp (app on mobile, WhatsApp Web / download prompt
+on desktop) with that message pre-written. They still have to tap send
+themselves on WhatsApp's side — there's no way to send a WhatsApp message
+on someone's behalf without that. If the browser blocks the new tab
+(pop-up blocker), it falls back to navigating the current tab there
+instead.
 
-To run it:
+Nothing about this needs configuring — the phone number comes from
+`business.phone` in `src/data/business.ts`, same as everywhere else it's
+used (the "Chat on WhatsApp" buttons, the footer, etc.), so it only ever
+needs updating in one place.
 
-1. `cp .env.example .env` and fill in `RESEND_API_KEY` (from
-   [resend.com/api-keys](https://resend.com/api-keys)) and
-   `CONTACT_TO_EMAIL`.
-2. Set the same two variables in the Vercel project's Environment Variables
-   before deploying.
-3. Before launch, verify a sending domain at
-   [resend.com/domains](https://resend.com/domains) and update the `from`
-   address in `contact.ts` — `onboarding@resend.dev` only works for testing
-   and is rate-limited.
+This project previously emailed enquiries via Resend from a Vercel
+serverless function (`src/pages/api/contact.ts`); that route, the `resend`
+dependency, and its environment variables have been removed now that the
+form hands off to WhatsApp instead. The `@astrojs/vercel` adapter is still
+installed for now — it degrades cleanly to a pure static build when there
+are no server routes (confirmed: `astro build` reports `mode: "static"`
+with nothing bundled), so leaving it in costs nothing and keeps the door
+open if a server route is ever needed again. Remove it (and the `vercel()`
+line in `astro.config.mjs`) if you'd rather not carry the unused
+dependency.
 
 ## Branding
 
@@ -101,13 +108,14 @@ The real brand mark and colour palette are in — no more placeholder line-art.
 
 ## Security
 
-- **Contact form abuse.** `/api/contact` has a hidden honeypot field (a bot
-  that auto-fills every input trips it; the response still looks like
-  success so the bot doesn't adapt), server-side email-format validation,
-  and length caps on every field. This stops generic scripted spam, not a
-  targeted attacker. If real spam gets through anyway, turn on Vercel's
-  Attack Challenge Mode (project dashboard, no code) or add a CAPTCHA
-  (e.g. Cloudflare Turnstile) in front of the form.
+- **Contact form abuse.** The contact form still has a hidden honeypot
+  field, now checked client-side in `contact.astro`'s submit script — if
+  it's filled in, the script quietly does nothing instead of opening
+  WhatsApp. There's no server left to abuse (no email quota, no API key,
+  nothing to spam), and actually reaching a stranger's WhatsApp requires
+  tapping send in WhatsApp itself, which is a much higher bar than a
+  scripted POST — so this is lower-risk than the previous email-based flow
+  by design, not just by the honeypot.
 - **Security headers** (`vercel.json`): CSP, `X-Content-Type-Options`,
   `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, and HSTS.
   The CSP's `script-src` includes `'unsafe-inline'` because Astro inlines a
@@ -134,9 +142,9 @@ The real brand mark and colour palette are in — no more placeholder line-art.
   width/height, which also fixes CLS).
 - **`privacy-policy.astro` and `terms-and-conditions.astro` are drafts**,
   `noindex`ed and excluded from the sitemap. The privacy policy honestly
-  describes what this site actually does today (contact form → Resend,
-  no cookies/analytics) but hasn't been reviewed by a solicitor. The terms
-  page is a bare structural skeleton with bracketed placeholders — none of
+  describes what this site actually does today (contact form → WhatsApp
+  hand-off, no cookies/analytics) but hasn't been reviewed by a solicitor.
+  The terms page is a bare structural skeleton with bracketed placeholders — none of
   the deposit/cancellation/liability specifics are real; they need
   Riverstone Event's actual policies filled in before this goes live and
   the `noindex` comes off.
