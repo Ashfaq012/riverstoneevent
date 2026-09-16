@@ -6,7 +6,7 @@ export const faqs = [
   {
     question: 'What types of events do you decorate?',
     answer:
-      "We style a wide range of celebrations — weddings, engagements, proposals, birthdays, baby showers, anniversaries, home celebrations, shop openings and launches, and religious or cultural occasions such as nikkah and mandap setups. If your event isn't listed, get in touch and tell us what you're planning.",
+      "We cater to all types of events, from kids' to adults' birthday parties, baby showers and bridal showers, engagements, anniversaries, nikkah ceremonies and mehndi, proposals, weddings, picnics, home celebrations and shop openings — small gatherings to large celebrations. If your event isn't listed, get in touch and tell us what you're planning.",
   },
   {
     question: 'Do you provide complete event decoration?',

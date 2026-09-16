@@ -7,22 +7,24 @@ import { business } from '../data/business';
 import { breadcrumbSchema } from '../lib/schema';
 
 // Every claim here is either a statement of approach ("we do X") or a
-// verifiable fact (address, service area) — not an unverifiable metric
-// (client rating, years of experience, "finest materials") or a superlative
-// ("the best venues"). See README's Content Integrity note if this file
-// gets edited later.
+// verifiable fact (address, service area, the range of events catered
+// for) — not an unverifiable metric (client rating, years of experience,
+// "finest materials") or a superlative ("the best venues"). The event
+// range and Watford base are drawn directly from the business's own
+// Instagram "Induction" post, not invented. See README's Content
+// Integrity note if this file gets edited later.
 const whyUs = [
   {
-    title: 'Personalised Designs',
-    body: 'Every project starts with your event, your venue and your preferences — not a fixed template applied to everyone.',
+    title: 'Every Event, Every Size',
+    body: "From a kids' birthday to a full wedding, small gathering to large celebration — we design and style whatever you're planning.",
   },
   {
-    title: 'Attention to Detail',
-    body: 'From colour matching to finishing touches, we work through the details that make a setup feel complete.',
+    title: 'Your Colours, Your Style',
+    body: 'Pick your own colour palette and decoration style — we work through the options with you rather than offering one fixed look.',
   },
   {
-    title: 'On-Time Setup',
-    body: "We aim to have everything in place well before your guests arrive.",
+    title: 'Decoration or Hire',
+    body: 'Book full event styling, or hire individual decorative pieces and items to put together your own setup.',
   },
   {
     title: 'Based in Watford',
@@ -41,12 +43,12 @@ const values = [
   },
   {
     title: 'Flexibility',
-    body: "Full event decoration or individual pieces to hire — we work however suits your event and your plans.",
+    body: "Full event decoration, dessert table styling, or individual pieces to hire — however you'd like to work with us.",
   },
 ];
 
 const title = `About Us | ${business.name}`;
-const description = `About ${business.name} — event decoration, styling and decorative item hire serving ${business.locations.join(', ')}.`;
+const description = `About ${business.name}, an event decor business based in Watford — event decoration, dessert table styling and decorative item hire serving ${business.locations.join(', ')}.`;
 ---
 
 <BaseLayout
@@ -69,16 +71,23 @@ const description = `About ${business.name} — event decoration, styling and de
       <p class="eyebrow eyebrow--start">About Riverstone Event</p>
       <h1>Crafting <span class="accent-word">Elegance</span> for Every Celebration</h1>
       <p>
-        At {business.name}, we believe every celebration deserves thoughtful
-        styling. We design and set up event decoration built around your
-        vision, and we also hire out individual decorative pieces for
-        anyone putting together their own setup — two ways of working with
-        us, both built around what you actually need.
+        {business.name} is an event decor business based in Watford. We
+        cater to every kind of celebration, from kids' to adults' birthday
+        parties, baby showers and bridal showers, engagements, anniversary
+        parties, nikkah ceremonies and mehndi, proposals, weddings, picnics
+        and more — whatever you're marking, we're happy to help you plan
+        it, whether it's a small gathering or a large one.
       </p>
       <p>
-        Serving {business.locations.join(', ')}, from intimate gatherings to
-        larger celebrations, we put care into understanding your event
-        before we plan a single detail.
+        You choose your colours and your preferred decoration style, and
+        we work through the options with you from there — including our
+        dessert table setups, styled to match. And if you'd rather put
+        your own setup together, our decorative items are available to
+        hire separately too.
+      </p>
+      <p>
+        Whatever you have in mind, we're here to help design and style it
+        — serving {business.locations.join(', ')}.
       </p>
     </div>
   </section>
