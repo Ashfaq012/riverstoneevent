@@ -21,7 +21,7 @@ builder.
 src/
   data/business.ts       single source of truth for name/phone/address/areas
   content.config.ts      schema for the services & hire collections
-  content/services/*.md  one file per service (17)
+  content/services/*.md  one file per service (16)
   content/hire/*.md      one file per hire category (4)
   lib/schema.ts          JSON-LD builders
   layouts/BaseLayout.astro   <head>, meta, schema injection, header/footer
