@@ -9,13 +9,7 @@ export default defineConfig({
   // the sitemap and every page's canonical/OG URLs.
   site: 'https://riverstoneevent.com',
   integrations: [
-    sitemap({
-      // Keep draft/noindex pages out of the sitemap too, not just out of
-      // search results — no point pointing crawlers at them.
-      filter: (page) =>
-        !page.includes('/privacy-policy/') &&
-        !page.includes('/terms-and-conditions/'),
-    }),
+    sitemap(),
   ],
   // The whole site is static HTML now — there's no server route left (the
   // contact form hands off to WhatsApp client-side instead of POSTing

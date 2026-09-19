@@ -36,8 +36,6 @@ src/
     hire/[slug].astro       ← one indexable URL per hire category
     gallery.astro
     contact.astro
-    privacy-policy.astro         ← draft only, noindex — see below
-    terms-and-conditions.astro   ← draft only, noindex — see below
     404.astro
 ```
 
@@ -140,14 +138,6 @@ The real brand mark and colour palette are in — no more placeholder line-art.
   event photos into `src/assets/` and swap the placeholder grid in
   `gallery.astro` for `astro:assets` `<Image>` components (auto WebP/AVIF +
   width/height, which also fixes CLS).
-- **`privacy-policy.astro` and `terms-and-conditions.astro` are drafts**,
-  `noindex`ed and excluded from the sitemap. The privacy policy honestly
-  describes what this site actually does today (contact form → WhatsApp
-  hand-off, no cookies/analytics) but hasn't been reviewed by a solicitor.
-  The terms page is a bare structural skeleton with bracketed placeholders — none of
-  the deposit/cancellation/liability specifics are real; they need
-  Riverstone Event's actual policies filled in before this goes live and
-  the `noindex` comes off.
 - **"Events Decorated" / "Years Experience" counters** on the About page
   were animated placeholders on the live site (rendering as 0) — get the
   real numbers from the client rather than inventing them.
