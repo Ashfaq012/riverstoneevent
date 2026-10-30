@@ -9,13 +9,14 @@
 // placeholder thumbnail (same visual language as the Gallery tiles) —
 // never a stand-in photo pretending to be that specific item.
 import { Image } from 'astro:assets';
+import type { HireImage } from '../data/hireImages';
 
 interface Props {
   href: string;
   title: string;
   eyebrow: string;
   items: string[];
-  image?: { src: ImageMetadata; alt: string };
+  image?: HireImage;
 }
 
 const { href, title, eyebrow, items, image } = Astro.props;
@@ -24,7 +25,13 @@ const { href, title, eyebrow, items, image } = Astro.props;
 <a class="card hire-card reveal" href={href}>
   <div class="hire-card__thumb" class:list={{ 'hire-card__thumb--photo': !!image }}>
     {image ? (
-      <Image src={image.src} alt={image.alt} width={480} height={360} />
+      <Image
+        src={image.src}
+        alt={image.alt}
+        width={480}
+        height={360}
+        style={image.position ? `object-position: ${image.position}` : undefined}
+      />
     ) : (
       <svg viewBox="0 0 40 40" class="hire-card__thumb-icon" aria-hidden="true">
         <circle cx="20" cy="20" r="18" />

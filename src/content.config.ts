@@ -18,7 +18,7 @@ const services = defineCollection({
   }),
 });
 
-// One entry per hire category (Backdrops, Plinths, Dessert Tables, Arches).
+// One entry per hire category (Backdrops, Plinths, Dessert Tables, Centrepieces).
 const hireItems = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/hire' }),
   schema: z.object({

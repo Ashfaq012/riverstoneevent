@@ -16,7 +16,7 @@ export const faqs = [
   {
     question: 'Can I hire individual decorative items?',
     answer:
-      'Yes. If you only need specific pieces — a backdrop, a cake plinth, a flower arch — you can hire them separately and style the rest of your event yourself.',
+      'Yes. If you only need specific pieces — a backdrop, a cake plinth, a dessert table setup — you can hire them separately and style the rest of your event yourself.',
   },
   {
     question: 'Can I hire items without booking full event decoration?',
